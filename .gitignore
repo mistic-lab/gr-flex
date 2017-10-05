@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# Python
+*.pyc
+
+# build directory
+build
+
+
+

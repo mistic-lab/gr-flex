@@ -21,25 +21,38 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-# 
-
+#
 import numpy
+import Queue
 from gnuradio import gr
+from flex import FlexApi
 
 class source(gr.sync_block):
     """
     docstring for block source
     """
-    def __init__(self, ipAddress,port,freq):
+    def __init__(self):
         gr.sync_block.__init__(self,
             name="source",
             in_sig=None,
-            out_sig=[<+numpy.float+>])
+            out_sig=[numpy.float])
+        
+        self.recievedDataQueue = Queue.Queue()
 
+        daxCh = 1
+        print("FlexSource::GetOrCreatePanAdapter")
+        pan = FlexApi.radio.GetOrCreatePanadapterSync(0,0) 
+        pan.DAXIQChannel = daxCh
+        print("FlexSource::CreatingIQStream")
+        iq = FlexApi.radio.CreateIQStreamSync(daxCh)
+        iq.DataReady += self.iq_data_received
 
+    def iq_data_received(self,iqStream,data):
+        print "Received {0} values".format(len(data))
+        self.recievedDataQueue.put(data[:])
+   
     def work(self, input_items, output_items):
         out = output_items[0]
-        # <+signal processing here+>
-        out[:] = whatever
+        out[:] = self.recievedDataQueue.get()
         return len(output_items[0])
 

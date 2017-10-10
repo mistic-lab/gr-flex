@@ -1,10 +1,12 @@
 # Import CLR and add in mono assemblies
 import clr
 clr.AddReference("System")
-clr.AddReference("Vita")
-clr.AddReference("Flex.UiWpfFramework")
-clr.AddReference("Util")
-clr.AddReference("FlexLib")
+
+flexLibDir = "../lib"
+clr.AddReference("{0}/Vita".format(flexLibDir))
+clr.AddReference("{0}/Flex.UiWpfFramework".format(flexLibDir))
+clr.AddReference("{0}/Util".format(flexLibDir))
+clr.AddReference("{0}/FlexLib".format(flexLibDir))
 
 # Print the loaded assemblies
 import System
@@ -50,13 +52,12 @@ firstPan = radio.PanadapterList[0]
 firstPan.DAXIQChannel = 0
 firstPan.DAXIQChannel = daxChannel
 
-iq = radio.CreateIQStream(daxChannel)
+iq = radio.CreateIQStreamSync(daxChannel)
 
 def iq_data_received(iqStream,data):
     print "Received {0} floats".format(len(data))
 
 iq.DataReady += iq_data_received
-iq.RequestIQStreamFromRadio()
 iq.SampleRate = sampleRate
 
 

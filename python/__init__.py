@@ -30,10 +30,6 @@ try:
 except ImportError:
 	pass
 
-print("Before initializng the source component")
-
 # import any pure python here
-import flex
+print("IMPORTING SOURCE")
 from source import source
-#
-print("Initializing the source module...")

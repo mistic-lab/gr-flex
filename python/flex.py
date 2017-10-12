@@ -24,45 +24,44 @@ for item in domain.GetAssemblies():
 # Import the API
 from Flex.Smoothlake.FlexLib import API
 
-class FlexApi:  
+class FlexApi: 
     radio = None
 
-def __print_radio_info(radio):
-    print("Radio Discovered")
-    print("Model:\t\t\t{0}\r\nIp:\t\t\t{1}\r\nCommand Port (TCP):\t{2}\r\nData Port (UDP):\t{3}".format(radio.Model,radio.IP,radio.CommandPort,API.UDPPort))
-    print("Status:\t\t\t{0}".format(radio.Status))
+    def __print_radio_info(self,radio):
+        print("Radio Discovered")
+        print("Model:\t\t\t{0}\r\nIp:\t\t\t{1}\r\nCommand Port (TCP):\t{2}\r\nData Port (UDP):\t{3}".format(radio.Model,radio.IP,radio.CommandPort,API.UDPPort))
+        print("Status:\t\t\t{0}".format(radio.Status))
 
+    def __radio_added(self,foundRadio):
+        FlexApi.radio = foundRadio
 
-def __radio_added(foundRadio):
-    FlexApi.radio = foundRadio
+    def __initRadio(self):
+        print("Initializing FlexLib API...\t")
+        API.RadioAdded += self.__radio_added
+        API.ProgramName = "gnuradio"
+        API.Init()
+        print("OK")
 
-if(FlexApi.radio is None):
-    print("Initializing FlexLib API...\t")
-    API.RadioAdded += __radio_added
-    API.ProgramName = "gnuradio"
-    API.Init()
-    print("OK")
-
-    print("Discovering Radios...\t\t")
-    # Here we wait until we have a connected radio
-    while FlexApi.radio is None:
-        pass
-
-    __print_radio_info(FlexApi.radio)
-    print("Connecting...")
-    FlexApi.radio.Connect()   
+        print("Discovering Radios...\t\t")
+        # Here we wait until we have a connected radio
+        while FlexApi.radio is None:
+            pass
         
-# # Wait for the panAdapters
-# # Todo: change this on the .net side to getOrCreatePanAdapter
-# while len(radio.PanadapterList) == 0:
-#     pass
+        # Remove our event handler
+        API.RadioAdded -= self.__radio_added
 
-# # daxChannel = 1
-# # sampleRate = 192000
+        self.__print_radio_info(FlexApi.radio)
+        print("Connecting...")
+        FlexApi.radio.Connect()
 
-# print("Found a Panadapter!")
-# firstPan = radio.PanadapterList[0]
+    def getRadio(self):
+        if(FlexApi.radio is None):
+            self.__initRadio()
+        return FlexApi.radio
 
-# iq = radio.CreateIQStreamSync(daxChannel)
+
+
+ 
+
 
 

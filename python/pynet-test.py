@@ -1,12 +1,13 @@
 # Import CLR and add in mono assemblies
+print("INCLUDING FLEX")
 import clr
 clr.AddReference("System")
 
-flexLibDir = "../lib"
+flexLibDir = "./FlexlibMono"
 clr.AddReference("{0}/Vita".format(flexLibDir))
-clr.AddReference("{0}/Flex.UiWpfFramework".format(flexLibDir))
 clr.AddReference("{0}/Util".format(flexLibDir))
 clr.AddReference("{0}/FlexLib".format(flexLibDir))
+clr.AddReference("{0}/Flex.UiWpfFramework".format(flexLibDir))
 
 # Print the loaded assemblies
 import System

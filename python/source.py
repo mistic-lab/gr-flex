@@ -37,16 +37,16 @@ class source(gr.sync_block):
             name="source",
             in_sig=None,
             out_sig=[numpy.float32])     
-        set_output_multiple(1024)
+#        self.set_output_multiple(1024)
 
     def iq_data_received(self,iqStream,data):
-        self.recievedDataQueue.put([float(i) for i in data])
+        for num in data:
+            self.receivedDataQueue.put(float(num))
    
     def start(self):
         print("FlexSource::Starting...")
-        self.recievedDataQueue = Queue.Queue()
+        self.receivedDataQueue = Queue.Queue()
         self.radio = FlexApi().getRadio()
-
         daxCh = 1
         print("FlexSource::GetOrCreatePanAdapter")
         pans = self.radio.WaitForPanadaptersSync()
@@ -55,6 +55,7 @@ class source(gr.sync_block):
             p.Close(True)
         pan = self.radio.GetOrCreatePanadapterSync(0,0) 
         pan.DAXIQChannel = daxCh
+        pan.CenterFreq = 14.272
         print("FlexSource::CreatingIQStream")
         self.iq = self.radio.CreateIQStreamSync(daxCh)
         self.iq.DataReady += self.iq_data_received
@@ -62,12 +63,24 @@ class source(gr.sync_block):
         print("FlexSource::IQStreamCreated")
         return True
 
+    def stop(self):
+        print("FlexSource::Closing Radio")
+        self.radio.Close()
+        return True
+
     def work(self,input_items, output_items):
         out = output_items[0]
-        items = self.recievedDataQueue.get()
-        print(type(output_items),out.size,out.dtype)
-        for index,item in enumerate(items):           
-            out[index]=item
+        try:
+            for i in range(0,out.size-1):
+                num = self.receivedDataQueue.get_nowait()
+                out[i]= num
+        except Queue.Empty:
+            # Happens when the queue is empty, no prob
+            pass
+        finally:
+            num_items = i
+
+        return num_items
         
-        return len(items)
+        
 

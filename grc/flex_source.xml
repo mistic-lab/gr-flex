@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>source</name>
+  <name>Flex Source</name>
   <key>flex_source</key>
-  <category>flex</category>
+  <category>Flex Radio</category>
   <import>import flex</import>
-  <make>flex.source()</make>
+  <make>flex.FlexSource()</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name

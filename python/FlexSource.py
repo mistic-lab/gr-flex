@@ -25,7 +25,10 @@
 import Queue
 import numpy
 from gnuradio import gr
+from threading import Lock
 from flex import FlexApi
+from RingBuffer import RingBuffer
+
 
 class FlexSource(gr.sync_block):
     """
@@ -37,16 +40,25 @@ class FlexSource(gr.sync_block):
                                name="source",
                                in_sig=None,
                                out_sig=[numpy.float32])
-        self.received_queue = None
+        self.rx_buffer = None
         self.radio = None
         self.iq_stream = None
         self.pan_adapter = None
 
     # TODO: Figure out how to do the following without leaking memory
     def __iq_data_received(self, iq_stream, data):
-        # See the work method for explanation of what's going on
-        for num in data:
-            self.received_queue.put(float(num))
+        try:
+            # See the work method for explanation of what's going on
+            # [self.received_queue.put(float(num)) for num in data] 
+            
+            self.rx_buffer.add([float(num) for num in data])
+        except RingBuffer.Full:
+            # queue is full, drop packets I guess
+            print("Buffer Fulle:Packet Dropped")
+            pass
+        except Exception as err:
+            print(err) 
+
 
     """
     Start method of GNU Block:
@@ -55,8 +67,7 @@ class FlexSource(gr.sync_block):
         - Creates IQ Stream and begins listening
     """
     def start(self):
-        self.received_queue = Queue.Queue(2048)
-        
+        self.rx_buffer = RingBuffer(4096) # 4 times the UDP payload size
         print "FlexSource::Starting..."
         self.radio = FlexApi().getRadio()
         
@@ -90,7 +101,8 @@ class FlexSource(gr.sync_block):
         self.iq_stream.DataReady -= self.__iq_data_received
         self.pan_adapter.Close(True)                
         self.iq_stream.Close()
-        self.received_queue.join()
+        del self.rx_buffer
+        #self.received_queue.join()
         print("FlexSource::Removed IQ & Panadapter, finished Queue")
         return True
 
@@ -104,13 +116,22 @@ class FlexSource(gr.sync_block):
         out = output_items[0]
         num_outputs = 0
         try:
-            for i in range(0, out.size - 1):
-                num = self.received_queue.get_nowait()
-                out[i] = num
-                self.received_queue.task_done()
-                num_outputs = i
-        except Queue.Empty:
-            # Happens when the queue is empty, no prob
+            items = self.rx_buffer.get(out.size)
+            num_outputs = items.size
+            out[0:num_outputs] = items
+        except RingBuffer.Empty:
+            # Don't care, just an empty buffer
             pass
-
+        
         return num_outputs
+
+
+        #     for i in range(0, out.size - 1):
+        #         num = self.received_queue.get_nowait()
+        #         #out[i] = self.received_queue.get_nowait()                
+        #         #self.received_queue.task_done()
+        #         #num_outputs = i
+        # except Queue.Empty:
+        #     # Happens when the queue is empty, no prob
+        #     pass
+        # return num_outputs

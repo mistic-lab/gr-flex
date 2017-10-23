@@ -31,5 +31,4 @@ except ImportError:
 	pass
 
 # import any pure python here
-from source import source
-#
+from FlexSource import FlexSource

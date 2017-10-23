@@ -1,0 +1,4 @@
+[submodule "FlexlibMono"]
+	path = FlexlibMono
+	url = https://github.com/cjam/FlexlibMono
+	branch = master

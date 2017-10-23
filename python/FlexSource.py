@@ -59,7 +59,6 @@ class FlexSource(gr.sync_block):
         Args:
             center_freq: the new center frequency
         """
-        print "Center Frequency Changed to {0}".format(center_freq)
         self._center_freq = center_freq
         self.pan_adapter.CenterFreq = self._center_freq
 

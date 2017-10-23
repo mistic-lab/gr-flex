@@ -22,10 +22,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-import Queue
 import numpy
 from gnuradio import gr
-from threading import Lock
 from flex import FlexApi
 from RingBuffer import RingBuffer
 
@@ -35,30 +33,45 @@ class FlexSource(gr.sync_block):
     The FlexSource block used for streaming and interacting with IQ Data Streams
     from the Flex Radio.
     """
-    def __init__(self):
+    def __init__(self, center_freq=14.070):
         gr.sync_block.__init__(self,
                                name="source",
                                in_sig=None,
                                out_sig=[numpy.float32])
+        self._center_freq = center_freq
+        print "FLEX:SOURCE:INIT"
         self.rx_buffer = None
         self.radio = None
         self.iq_stream = None
         self.pan_adapter = None
 
-    # TODO: Figure out how to do the following without leaking memory
+    @property
+    def center_freq(self):
+        """
+        Returns configured center frequency.
+        """
+        return self._center_freq
+
+    def set_center_freq(self,center_freq):
+        """ 
+        Sets the center frequency of the underlying Panadapter
+        
+        Args:
+            center_freq: the new center frequency
+        """
+        print "Center Frequency Changed to {0}".format(center_freq)
+        self._center_freq = center_freq
+        self.pan_adapter.CenterFreq = self._center_freq
+
     def __iq_data_received(self, iq_stream, data):
         try:
-            # See the work method for explanation of what's going on
-            # [self.received_queue.put(float(num)) for num in data] 
-            
+            # Add the data to the receive buffer            
             self.rx_buffer.add([float(num) for num in data])
         except RingBuffer.Full:
             # queue is full, drop packets I guess
-            print("Buffer Fulle:Packet Dropped")
-            pass
+            print("FLEX_SOURCE::Buffer Full, Packet Dropped")
         except Exception as err:
-            print(err) 
-
+            print err
 
     """
     Start method of GNU Block:
@@ -73,7 +86,6 @@ class FlexSource(gr.sync_block):
         
         # TODO: make these parameters of source block
         dax_ch = 1
-        center_freq = 14.070
         sample_rate = 192000
         
         print "FlexSource::GetOrCreatePanAdapter"
@@ -83,8 +95,10 @@ class FlexSource(gr.sync_block):
         for p in pans:
             p.Close(True)
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
+
+        print "FlexSource::Panadapter created (ch:{0},center freq:{1} MHz)".format(dax_ch,self.center_freq)
         self.pan_adapter.DAXIQChannel = dax_ch
-        self.pan_adapter.CenterFreq = center_freq
+        self.pan_adapter.CenterFreq = self.center_freq
 
         print "FlexSource::CreatingIQStream"
         self.iq_stream = self.radio.CreateIQStreamSync(dax_ch)

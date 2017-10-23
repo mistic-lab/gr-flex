@@ -4,17 +4,19 @@
   <key>flex_source</key>
   <category>Flex Radio</category>
   <import>import flex</import>
-  <make>flex.FlexSource()</make>
+  <make>flex.FlexSource($center_freq)</make>
+  <callback>set_center_freq($center_freq)</callback>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
-  <!-- <param>
-    <name>...</name>
-    <key>...</key>
-    <type>...</type>
-  </param> -->
+  <param>
+    <name>Center Frequency</name>
+    <key>center_freq</key>
+    <value>center_freq</value>
+    <type>float</type>
+  </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
@@ -32,7 +34,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
+    <name>Interleaved IQ</name>
     <type>float</type>
   </source>
 </block>

@@ -28,10 +28,10 @@ You will need the following pre-requisites installed on your machine (in this or
 - **Python** (***Is required by GNU Radio***, tested with 2.7)
 
 
-> **Linux / OSX** 
-> - [Mono](http://www.mono-project.com/download/)
+> **Linux / OSX**
+> - [Mono](http://www.mono-project.com/download/) **(Mono-devel should be sufficient)**
 
-- [pip](https://pip.pypa.io/en/stable/installing/)
+- [pip](https://pip.pypa.io/en/stable/installing/) **(already installed if Python 2 >=2.7.9 is installed)**
 - [PythonNet]
 
 ```
@@ -94,11 +94,11 @@ Pull Requests are welcome.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
 ## Authors
 
-* **Colter Mcquay** - *Initial work* 
+* **Colter Mcquay** - *Initial work*
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
@@ -112,7 +112,7 @@ Thanks to the following students who wrote some reports that provided some insig
 
 - Robert Cormier
 - Marian Böhm
-- Donatus Unuigboje 
+- Donatus Unuigboje
 
 Thanks to [Frank Werner-Krippendorf](https://github.com/krippendorf) for the work on the [FlexlibMono](https://github.com/krippendorf/FlexlibMono) project which I forked and used as a submodule within this repository.
 

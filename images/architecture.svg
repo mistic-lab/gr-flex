@@ -48,27 +48,27 @@
   </g>
   <a id="svg_55" xlink:href="https://github.com/pythonnet/pythonnet">
    <g id="svg_54">
-    <rect fill="#00ffff" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="55.25002" y="189" width="267.75001" height="30" id="svg_52" stroke="#000000"/>
+    <rect fill="#00ffff" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="55.25002" y="189" width="267.75001" height="30" id="svg_52" stroke="#000000"/>
     <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="175.3072" y="211.55747" id="svg_53" font-size="24" font-family="serif" text-anchor="middle" xml:space="preserve" transform="matrix(0.8244553804397583,0,0,0.8244553804397583,44.7227347176522,36.33773624897003) " stroke="#000000">python.net</text>
    </g>
   </a>
   <a id="svg_56" xlink:href="https://github.com/cjam/FlexlibMono/">
    <g id="svg_13" stroke="null">
-    <rect fill="#e7ed97" stroke-width="0" x="54.75" y="226.25" width="268.9375" height="71" id="svg_14" stroke="#000000"/>
+    <rect fill="#e7ed97" x="54.75" y="226.25" width="268.9375" height="71" id="svg_14" stroke="#000000"/>
     <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="189.10257" y="255.0669" id="svg_17" font-size="24" font-family="serif" text-anchor="middle" xml:space="preserve" transform="matrix(1.0148584842681885,0,0,0.9594594836235046,-2.685671031475067,11.746614620089531) " stroke="#000000">FlexLibMono</text>
     <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="188.4307" y="284.0669" id="svg_18" font-size="24" font-family="serif" text-anchor="middle" xml:space="preserve" transform="matrix(1.0148584842681885,0,0,0.9594594836235046,-2.685671031475067,11.746614620089531) " stroke="#000000">.Net</text>
    </g>
   </a>
   <a id="svg_57" xlink:href="https://github.com/cjam/gr-flex">
    <g id="svg_6" stroke="null">
-    <rect fill="#91d6a9" stroke-width="0" x="56" y="107.75" width="267.99999" height="74" id="svg_7" stroke="#000000"/>
+    <rect fill="#91d6a9" x="56" y="107.75" width="267.99999" height="74" id="svg_7" stroke="#000000"/>
     <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="224.66883" y="152.9369" id="svg_10" font-size="24" font-family="serif" text-anchor="middle" xml:space="preserve" transform="matrix(1.121322867381435,0,0,1.0888364902615348,-61.69000873369825,-24.595011698806584) " stroke="#000000">gr-flex</text>
     <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="158.85404" y="126.83279" font-size="24" font-family="serif" text-anchor="middle" xml:space="preserve" id="svg_11" transform="matrix(0.5569783883168498,0,0,0.5507435798645018,101.45868914434753,98.46327137947081) " stroke="#000000">OOT Module</text>
    </g>
   </a>
   <a id="svg_60" xlink:href="https://www.gnuradio.org/">
    <g id="svg_5" stroke="null">
-    <rect fill="#eab9b9" stroke-width="0" x="55" y="24" width="268.75001" height="74" id="svg_1" stroke="#000000"/>
+    <rect fill="#eab9b9" x="55" y="24" width="268.75001" height="74" id="svg_1" stroke="#000000"/>
     <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="189.27377" y="69" id="svg_4" font-size="24" font-family="serif" text-anchor="middle" xml:space="preserve" stroke="#000000" transform="matrix(1.0141509771347046,0,0,1,-2.5613268613815308,0) ">GNU Radio</text>
    </g>
   </a>

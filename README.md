@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 This project uses a .Net library called FlexlibMono which I have forked and included as a submodule within this project.  You will need to run
 
-`git submodule update`
+`git submodule update --init`
 
 ### References
 

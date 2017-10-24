@@ -3,11 +3,10 @@
 
 An Out of tree GNU Radio block for communicating with the Flex radio
 
-<center>
-<image src="./images/architecture.svg" width="400" />
-<br/>
-Architecture of gr-flex block
-</center>
+### Architecture
+
+![Architecture Diagram](./images/architecture.svg)
+
 
 ## Getting Started
 

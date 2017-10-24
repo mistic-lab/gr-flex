@@ -5,7 +5,7 @@ An Out of tree GNU Radio block for communicating with the Flex radio
 
 ### Architecture
 
-![Architecture Diagram](./images/architecture.svg)
+![Architecture Diagram](https://cdn.rawgit.com/cjam/gr-flex/master/images/architecture.svg)
 
 
 ## Getting Started

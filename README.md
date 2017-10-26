@@ -25,18 +25,20 @@ This project uses a .Net library called FlexlibMono which I have forked and incl
 You will need the following pre-requisites installed on your machine (in this order):
 
 - [GNU Radio](https://wiki.gnuradio.org/index.php/InstallingGR)
-- **Python** (***Is required by GNU Radio***, tested with 2.7)
 
+- **Python** (***Is required by GNU Radio***, tested with 2.7)
 
 > **Linux / OSX**
 > - [Mono](http://www.mono-project.com/download/) **(Mono-devel should be sufficient)**
 
 - [pip](https://pip.pypa.io/en/stable/installing/) **(already installed if Python 2 >=2.7.9 is installed)**
-- [PythonNet]
 
+- [PythonNet] **If the following doesn't work, see the [troubleshooting](#troubleshooting) section**
+```python
+sudo -H pip install pythonnet
 ```
-> sudo pip install pythonnet
-```
+
+- [cmake](cmake.org)
 
 ### Installing the block
 
@@ -77,9 +79,37 @@ When the Flex Source starts up, it will go through the discovery process and out
 
 ![Sample Output](./images/sample-output.png)
 
+## Troubleshooting
+If you're having problems installing pythonnet the following may help.
+
+- [setuptools](pypi.python.org/pypi/setuptools) **At least on Ubuntu 16.04, setuptools is likely outdated which causes problems installing pip as well as pythonnet (below)**. To check which version you have, run:
+```python
+python
+import setuptools
+setuptools.__version
+```
+The current version is listed at https://pypi.python.org/pypi/setuptools.
+
+If you need to upgrade it:
+```
+wget https://bootstrap.pypa.io/get-pip.py
+sudo -H python get-pip.py
+sudo -H pip install setuptools --upgrade
+```
+
+- [gliblib](https://packages.ubuntu.com/xenial/libglib2.0-dev) **In ubuntu, the following is necessary:**
+```
+sudo apt-get install libglib2.0-dev
+```
+
+- Finally, try installing pythonnet using an egg by running:
+```
+sudo pip install git+https://github.com/pythonnet/pythonnet --egg
+```
+
 ## Running the tests
 
-Unfortunately since the block requires the prescence of a Flex Radio, it makes mocking the block much harder to do.  To test this module, the sample apps were used to test and confirm functionality.
+Unfortunately since the block requires the prescence of a Flex Radio, it makes mocking the block much harder to do.  To test this module, the sample apps were used with a Flex system to test and confirm functionality.
 
 ## Built With
 

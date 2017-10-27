@@ -74,9 +74,9 @@ Here's how the **Flex Source** block currently looks in GNU Radio:
 ![Flex Block](./images/flex-source-block.png)
 
 ### Sample Apps
-See the sample **GRC** files that have been placed into the `apps/` directory of this repo:
+See the sample **GRC** files that have been placed into the `examples/` directory of this repo:
 
-`./apps/flex-source.grc` - sends FlexRadio data to a waterfall plot
+`./examples/flex-source.grc` - sends FlexRadio data to a waterfall plot
 
 ## Running the Samples
 
@@ -133,7 +133,7 @@ Pull Requests are welcome.
 ## Authors
 
 * **Colter Mcquay** - *Initial work*
-* ** Nicholas Bruce** - *Follow up slave-labour*
+* **Nicholas Bruce** - *Follow up slave-labour*
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 

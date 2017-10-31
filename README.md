@@ -22,28 +22,60 @@ This project uses a .Net library called FlexlibMono which I have forked and incl
 ### Prerequisites
 
 You will need the following pre-requisites installed on your machine (in this order):
->Note: The same pre-requisites are needed for all OS's, but the code blocks are specific to Ubuntu/Debian (except the Python snippets)
+> For OS-specific install instructions see the below sections for [Linux](#Linux) and [macOS](macOS).
 
 - [GNU Radio](https://wiki.gnuradio.org/index.php/InstallingGR)
+- [Python](https://www.python.org/) (**required by GNU Radio**, gr-flex was tested with 2.7)
+- [Mono](http://www.mono-project.com/download/) **(only for MacOS/Linux systems)**
+- [pip](https://pip.pypa.io/en/stable/installing/) **(already installed if Python 2 >=2.7.9 is installed)**
+- [PythonNet]
+- [cmake](cmake.org)
+
+
+#### Linux
+> tested with Ubuntu 16.04
+
+- GNU Radio
 ```
 sudo apt-get install gnuradio
 ```
-
-- [Python](https://www.python.org/) (**is required by GNU Radio and so is probably installed on your computer by now**, gr-flex was tested with 2.7)
-
-- [Mono](http://www.mono-project.com/download/) **(only needed for MacOS/Linux systems)**
+- Mono
 ```
 sudo apt-get install mono-devel
 ```
-
-- [pip](https://pip.pypa.io/en/stable/installing/) **(already installed if Python 2 >=2.7.9 is installed)**
-
-- [PythonNet] **(if the following doesn't work, see the [troubleshooting](#troubleshooting) section)**
+- PythonNet **(if the following doesn't work, see the [troubleshooting](#troubleshooting) section)**
 ```
 sudo -H pip install pythonnet
 ```
+- cmake
+```
+sudo apt-get install cmake
+```
 
-- [cmake](cmake.org)
+## macOS
+> tested with macOS 10.13 with MacPorts 2.4.2
+
+- GNU Radio
+> XQuartz/X11 is a prerequisite for GNU Radio
+```
+sudo port -v install xorg-server
+```
+
+- Python
+```
+sudo select --set python python27
+sudo select --set python2 python27
+```
+
+- Mono
+```
+sudo apt-get install mono-devel
+```
+- PythonNet **(if the following doesn't work, see the [troubleshooting](#troubleshooting) section)**
+```
+sudo -H pip install pythonnet
+```
+- cmake
 ```
 sudo apt-get install cmake
 ```

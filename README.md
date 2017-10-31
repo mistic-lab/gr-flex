@@ -67,10 +67,10 @@ You will need the following pre-requisites installed on your machine (in this or
 
 
 - Python
-```
-sudo select --set python python27
-sudo select --set python2 python27
-```
+  ```
+  sudo select --set python python27
+  sudo select --set python2 python27
+  ```
 
 - Mono
 ```

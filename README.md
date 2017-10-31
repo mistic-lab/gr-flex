@@ -36,30 +36,35 @@ You will need the following pre-requisites installed on your machine (in this or
 > tested with Ubuntu 16.04
 
 - GNU Radio
-```
-sudo apt-get install gnuradio
-```
+  ```
+  sudo apt-get install gnuradio
+  ```
 - Mono
-```
-sudo apt-get install mono-devel
-```
+  ```
+  sudo apt-get install mono-devel
+  ```
 - PythonNet **(if the following doesn't work, see the [troubleshooting](#troubleshooting) section)**
-```
-sudo -H pip install pythonnet
-```
+  ```
+  sudo -H pip install pythonnet
+  ```
 - cmake
-```
-sudo apt-get install cmake
-```
+  ```
+  sudo apt-get install cmake
+  ```
 
 ## macOS
 > tested with macOS 10.13 with MacPorts 2.4.2
 
 - GNU Radio
-> XQuartz/X11 is a prerequisite for GNU Radio
-```
-sudo port -v install xorg-server
-```
+  > [XQuartz/X11](https://www.xquartz.org/) is a prerequisite for GNU Radio
+
+  ```
+  sudo port -v install xorg-server
+  ```
+  ```
+  sudo port install gnuradio
+  ```
+
 
 - Python
 ```

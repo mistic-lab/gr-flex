@@ -53,29 +53,42 @@ You will need the following pre-requisites installed on your machine (in this or
   ```
 
 ## macOS
-> tested with macOS 10.13 with MacPorts 2.4.2
+> tested with macOS 10.13 with [MacPorts](https://www.macports.org/) 2.4.2
+
+- Xcode **Can be installed from the App Store**
+  ```
+  xcode-select --installed
+  ```
 
 - GNU Radio
   > [XQuartz/X11](https://www.xquartz.org/) is a prerequisite for GNU Radio
-
   ```
   sudo port -v install xorg-server
   ```
+
   ```
   sudo port install gnuradio
   ```
 
-
-- Python
+- Python **(should already exist on your system)**
   ```
   sudo select --set python python27
   sudo select --set python2 python27
   ```
 
 - Mono
-```
-sudo apt-get install mono-devel
-```
+  >Although it can be installed via MacPorts, the port is often outdated (at the time of this writing, the active version is 5.4.0 Stable and the latest port is 3.12.1). As such, it's best to install it via the .pkg available at [the Mono website](http://www.mono-project.com/download/)
+
+  > Once installed, run:
+  ```
+  export PATH=$PATH:/Library/Frameworks/Mono.framework/Versions/Current/bin/
+  ```
+
+- pip
+  ```
+  sudo easy_install pip
+  ```
+
 - PythonNet **(if the following doesn't work, see the [troubleshooting](#troubleshooting) section)**
 ```
 sudo -H pip install pythonnet
@@ -132,14 +145,21 @@ If you're having problems installing [PythonNet](#pythonnet) the following may h
 ```python
 python
 import setuptools
-setuptools.__version
+setuptools.__version__
 ```
 The current version is listed at https://pypi.python.org/pypi/setuptools.
 If you need to upgrade it:
 ```
 wget https://bootstrap.pypa.io/get-pip.py
 sudo -H python get-pip.py
+```
+If in Linux (Ubuntu), run:
+```
 sudo -H pip install setuptools --upgrade
+```
+If in macOS, run:
+```
+sudo -H pip install setuptools --upgrade --user python
 ```
 
 - [gliblib](https://packages.ubuntu.com/xenial/libglib2.0-dev) **(in ubuntu at least, the following is necessary)**

@@ -14,7 +14,7 @@
   <param>
     <name>Center Frequency</name>
     <key>center_freq</key>
-    <value>center_freq</value>
+    <value>101.9</value>
     <type>float</type>
   </param>
 

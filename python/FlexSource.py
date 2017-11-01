@@ -33,12 +33,13 @@ class FlexSource(gr.sync_block):
     The FlexSource block used for streaming and interacting with IQ Data Streams
     from the Flex Radio.
     """
-    def __init__(self, center_freq=14.070):
+    def __init__(self, center_freq=14.070, bandwidth=5.0):
         gr.sync_block.__init__(self,
                                name="source",
                                in_sig=None,
                                out_sig=[numpy.float32])
         self._center_freq = center_freq
+        self._bandwidth = bandwidth
         print "FLEX:SOURCE:INIT"
         self.rx_buffer = None
         self.radio = None
@@ -53,25 +54,41 @@ class FlexSource(gr.sync_block):
         return self._center_freq
 
     def set_center_freq(self,center_freq):
-        """ 
+        """
         Sets the center frequency of the underlying Panadapter
-        
+
         Args:
             center_freq: the new center frequency
         """
         self._center_freq = center_freq
         self.pan_adapter.CenterFreq = self._center_freq
 
+    @property
+    def bandwidth(self):
+        """
+        Returns configured bandwidth.
+        """
+        return self._bandwidth
+
+    def set_bandwidth(self,bandwidth):
+        """
+        Sets the bandwidth of the underlying Panadapter
+
+        Args:
+            bandwidth: the new bandwidth
+        """
+        self._bandwidth = bandwidth
+        self.pan_adapter.Bandwidth = self._bandwidth
+
     def __iq_data_received(self, iq_stream, data):
         try:
-            # Add the data to the receive buffer            
+            # Add the data to the receive buffer
             self.rx_buffer.add([float(num) for num in data])
         except RingBuffer.Full:
             # queue is full, drop packets I guess
             print("FLEX_SOURCE::Buffer Full, Packet Dropped")
         except Exception as err:
             print err
-
     """
     Start method of GNU Block:
         - Get's active radio from api
@@ -82,11 +99,11 @@ class FlexSource(gr.sync_block):
         self.rx_buffer = RingBuffer(4096) # 4 times the UDP payload size
         print "FlexSource::Starting..."
         self.radio = FlexApi().getRadio()
-        
+
         # TODO: make these parameters of source block
         dax_ch = 1
         sample_rate = 192000
-        
+
         print "FlexSource::GetOrCreatePanAdapter"
         pans = self.radio.WaitForPanadaptersSync()
         # Close any panAdapters currently setup
@@ -95,9 +112,10 @@ class FlexSource(gr.sync_block):
             p.Close(True)
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
 
-        print "FlexSource::Panadapter created (ch:{0},center freq:{1} MHz)".format(dax_ch,self.center_freq)
+        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz)".format(dax_ch,self.center_freq,self.bandwidth)
         self.pan_adapter.DAXIQChannel = dax_ch
         self.pan_adapter.CenterFreq = self.center_freq
+        self.pan_adapter.Bandwidth = self.bandwidth
 
         print "FlexSource::CreatingIQStream"
         self.iq_stream = self.radio.CreateIQStreamSync(dax_ch)
@@ -112,7 +130,7 @@ class FlexSource(gr.sync_block):
     def stop(self):
         print("FlexSource::Removing IQ & Pan Adapter")
         self.iq_stream.DataReady -= self.__iq_data_received
-        self.pan_adapter.Close(True)                
+        self.pan_adapter.Close(True)
         self.iq_stream.Close()
         del self.rx_buffer
         #self.received_queue.join()
@@ -135,13 +153,13 @@ class FlexSource(gr.sync_block):
         except RingBuffer.Empty:
             # Don't care, just an empty buffer
             pass
-        
+
         return num_outputs
 
 
         #     for i in range(0, out.size - 1):
         #         num = self.received_queue.get_nowait()
-        #         #out[i] = self.received_queue.get_nowait()                
+        #         #out[i] = self.received_queue.get_nowait()
         #         #self.received_queue.task_done()
         #         #num_outputs = i
         # except Queue.Empty:

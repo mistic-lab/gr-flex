@@ -4,8 +4,9 @@
   <key>flex_source</key>
   <category>Flex Radio</category>
   <import>import flex</import>
-  <make>flex.FlexSource($center_freq)</make>
+  <make>flex.FlexSource($center_freq, $bandwidth)</make>
   <callback>set_center_freq($center_freq)</callback>
+  <callback>set_bandwidth($bandwidth)</callback>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -15,6 +16,13 @@
     <name>Center Frequency</name>
     <key>center_freq</key>
     <value>101.9</value>
+    <type>float</type>
+  </param>
+
+  <param>
+    <name>Bandwidth</name>
+    <key>bandwidth</key>
+    <value>50</value>
     <type>float</type>
   </param>
 

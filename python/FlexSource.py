@@ -89,6 +89,13 @@ class FlexSource(gr.sync_block):
             print("FLEX_SOURCE::Buffer Full, Packet Dropped")
         except Exception as err:
             print err
+
+    """ # If uncommenting, also see the += line in def start(self)
+    def __property_changed(self, sender, args):
+        if args.PropertyName == "Bandwidth":
+            print "{0} Bandwidth Changed".format(self.pan_adapter.Bandwidth)
+    """
+
     """
     Start method of GNU Block:
         - Get's active radio from api
@@ -111,6 +118,7 @@ class FlexSource(gr.sync_block):
         for p in pans:
             p.Close(True)
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
+        #self.pan_adapter.PropertyChanged += self.__property_changed
 
         print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz)".format(dax_ch,self.center_freq,self.bandwidth)
         self.pan_adapter.DAXIQChannel = dax_ch

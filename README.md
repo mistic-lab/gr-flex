@@ -41,7 +41,7 @@ You will need the following pre-requisites installed on your machine (in this or
   ```
 - Mono
   ```
-  sudo apt-get install mono-devel
+  sudo apt-get install mono-complete
   ```
 - PythonNet **(if the following doesn't work, see the [troubleshooting](#troubleshooting) section)**
   ```
@@ -139,7 +139,7 @@ When the Flex Source starts up, it will go through the discovery process and out
 ![Sample Output](./images/sample-output.png)
 
 ## Troubleshooting
-If you're having problems installing [PythonNet](#pythonnet) the following may help.
+If you're having problems installing [PythonNet](#pythonnet) the following may help. We have no idea why some of these things work, but if they're listed below it was part of our solution. There is [a documented problem](https://github.com/pythonnet/pythonnet/issues/555) at the time of this writing (Nov. 2017) to get PythonNet running with Mono.
 
 - [setuptools](pypi.python.org/pypi/setuptools) **(At least on Ubuntu 16.04, setuptools is likely outdated which causes problems installing pip as well as pythonnet)**. To check which version you have, run:
 ```python
@@ -162,7 +162,7 @@ If in macOS, run:
 sudo -H pip install setuptools --upgrade --user python
 ```
 
-- [gliblib](https://packages.ubuntu.com/xenial/libglib2.0-dev) **(in ubuntu at least, the following is necessary)**
+- [gliblib](https://packages.ubuntu.com/xenial/libglib2.0-dev) **(in Ubuntu the following is necessary)**
 ```
 sudo apt-get install libglib2.0-dev
 ```

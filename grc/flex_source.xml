@@ -15,14 +15,14 @@
   <param>
     <name>Center Frequency</name>
     <key>center_freq</key>
-    <value>101.9</value>
+    <value>14000000</value>
     <type>float</type>
   </param>
 
   <param>
     <name>Bandwidth</name>
     <key>bandwidth</key>
-    <value>50</value>
+    <value>5000000</value>
     <type>float</type>
   </param>
 

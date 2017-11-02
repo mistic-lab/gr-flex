@@ -33,13 +33,13 @@ class FlexSource(gr.sync_block):
     The FlexSource block used for streaming and interacting with IQ Data Streams
     from the Flex Radio.
     """
-    def __init__(self, center_freq=14.070, bandwidth=5.0):
+    def __init__(self, center_freq=15000000, bandwidth=5000000):
         gr.sync_block.__init__(self,
                                name="source",
                                in_sig=None,
                                out_sig=[numpy.float32])
-        self._center_freq = center_freq
-        self._bandwidth = bandwidth
+        self._center_freq = center_freq/1000000
+        self._bandwidth = bandwidth/1000000
         print "FLEX:SOURCE:INIT"
         self.rx_buffer = None
         self.radio = None
@@ -60,7 +60,7 @@ class FlexSource(gr.sync_block):
         Args:
             center_freq: the new center frequency
         """
-        self._center_freq = center_freq
+        self._center_freq = center_freq/1000000
         self.pan_adapter.CenterFreq = self._center_freq
 
     @property
@@ -77,7 +77,7 @@ class FlexSource(gr.sync_block):
         Args:
             bandwidth: the new bandwidth
         """
-        self._bandwidth = bandwidth
+        self._bandwidth = bandwidth/1000000
         self.pan_adapter.Bandwidth = self._bandwidth
 
     def __iq_data_received(self, iq_stream, data):

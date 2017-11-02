@@ -38,13 +38,17 @@ class FlexSource(gr.sync_block):
                                name="source",
                                in_sig=None,
                                out_sig=[numpy.float32])
-        self._center_freq = center_freq/1000000
-        self._bandwidth = bandwidth/1000000
+        self._center_freq = kHztoMHz(center_freq)
+        self._bandwidth = kHztoMHz(bandwidth)
         print "FLEX:SOURCE:INIT"
         self.rx_buffer = None
         self.radio = None
         self.iq_stream = None
         self.pan_adapter = None
+
+    def kHztoMHz(kHz)
+        MHz = kHz/1000000
+        return MHz
 
     @property
     def center_freq(self):
@@ -60,7 +64,7 @@ class FlexSource(gr.sync_block):
         Args:
             center_freq: the new center frequency
         """
-        self._center_freq = center_freq/1000000
+        self._center_freq = kHztoMHz(center_freq)
         self.pan_adapter.CenterFreq = self._center_freq
 
     @property
@@ -77,7 +81,7 @@ class FlexSource(gr.sync_block):
         Args:
             bandwidth: the new bandwidth
         """
-        self._bandwidth = bandwidth/1000000
+        self._bandwidth = kHztoMHz(bandwidth)
         self.pan_adapter.Bandwidth = self._bandwidth
 
     def __iq_data_received(self, iq_stream, data):

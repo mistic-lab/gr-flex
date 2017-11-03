@@ -28,6 +28,7 @@ from flex import FlexApi
 from RingBuffer import RingBuffer
 
 
+
 class FlexSource(gr.sync_block):
     """
     The FlexSource block used for streaming and interacting with IQ Data Streams
@@ -38,17 +39,17 @@ class FlexSource(gr.sync_block):
                                name="source",
                                in_sig=None,
                                out_sig=[numpy.float32])
-        self._center_freq = kHztoMHz(center_freq)
-        self._bandwidth = kHztoMHz(bandwidth)
+        self._center_freq = self.__hz_to_mhz(center_freq)
+        self._bandwidth = self.__hz_to_mhz(bandwidth)
         print "FLEX:SOURCE:INIT"
         self.rx_buffer = None
         self.radio = None
         self.iq_stream = None
         self.pan_adapter = None
 
-    def kHztoMHz(kHz)
-        MHz = kHz/1000000
-        return MHz
+    def __hz_to_mhz(self, hz):
+        mhz = hz/1000000
+        return mhz
 
     @property
     def center_freq(self):
@@ -64,7 +65,7 @@ class FlexSource(gr.sync_block):
         Args:
             center_freq: the new center frequency
         """
-        self._center_freq = kHztoMHz(center_freq)
+        self._center_freq = self.__hz_to_mhz(center_freq)
         self.pan_adapter.CenterFreq = self._center_freq
 
     @property
@@ -81,7 +82,7 @@ class FlexSource(gr.sync_block):
         Args:
             bandwidth: the new bandwidth
         """
-        self._bandwidth = kHztoMHz(bandwidth)
+        self._bandwidth = self.__hz_to_mhz(bandwidth)
         self.pan_adapter.Bandwidth = self._bandwidth
 
     def __iq_data_received(self, iq_stream, data):

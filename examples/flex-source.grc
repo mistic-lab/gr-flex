@@ -93,7 +93,66 @@
     </param>
     <param>
       <key>value</key>
-      <value>14.07</value>
+      <value>5000000</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(432, 33)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>grid_pos</key>
+      <value></value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>bandwidth</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Bandwidth</value>
+    </param>
+    <param>
+      <key>max</key>
+      <value>15000000</value>
+    </param>
+    <param>
+      <key>min</key>
+      <value>15000</value>
+    </param>
+    <param>
+      <key>notebook</key>
+      <value></value>
+    </param>
+    <param>
+      <key>num_steps</key>
+      <value>1000</value>
+    </param>
+    <param>
+      <key>style</key>
+      <value>wx.SL_HORIZONTAL</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_slider</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>converver</key>
+      <value>float_converter</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>14000000</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -121,11 +180,11 @@
     </param>
     <param>
       <key>max</key>
-      <value>20</value>
+      <value>200000000</value>
     </param>
     <param>
       <key>min</key>
-      <value>.5</value>
+      <value>500</value>
     </param>
     <param>
       <key>notebook</key>
@@ -268,6 +327,10 @@
   <block>
     <key>flex_source</key>
     <param>
+      <key>bandwidth</key>
+      <value>bandwidth</value>
+    </param>
+    <param>
       <key>alias</key>
       <value></value>
     </param>
@@ -289,7 +352,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 188)</value>
+      <value>(32, 181)</value>
     </param>
     <param>
       <key>_rotation</key>

@@ -72,8 +72,8 @@ You will need the following pre-requisites installed on your machine (in this or
 
 - Python **(should already exist on your system)**
   ```
-  sudo select --set python python27
-  sudo select --set python2 python27
+  sudo port select --set python python27
+  sudo port select --set python2 python27
   ```
 
 - Mono
@@ -162,7 +162,7 @@ If in macOS, run:
 sudo -H pip install setuptools --upgrade --user python
 ```
 
-- [gliblib](https://packages.ubuntu.com/xenial/libglib2.0-dev) **(in Ubuntu the following is necessary)**
+- [gliblib](https://packages.ubuntu.com/xenial/libglib2.0-dev) **(in Ubuntu the following is necessary. The macOS installer includes this.)**
 ```
 sudo apt-get install libglib2.0-dev
 ```

@@ -93,6 +93,16 @@ class FlexSource(gr.sync_block):
         """
         return self._rx_ant
 
+    def set_rx_ant(self,rx_ant):
+        """
+        Sets the RX antenna of the underlying Panadapter
+
+        Args:
+            rx_ant: the new RX antenna to use
+        """
+        self._rx_ant = self.rx_ant
+        self.pan_adapter.RXAnt = self._rx_ant
+
     def __iq_data_received(self, iq_stream, data):
         try:
             # Add the data to the receive buffer

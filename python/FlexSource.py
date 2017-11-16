@@ -34,13 +34,14 @@ class FlexSource(gr.sync_block):
     The FlexSource block used for streaming and interacting with IQ Data Streams
     from the Flex Radio.
     """
-    def __init__(self, center_freq=15000000, bandwidth=5000000):
+    def __init__(self, center_freq=15000000, bandwidth=5000000, rx_ant="ANT1"):
         gr.sync_block.__init__(self,
                                name="source",
                                in_sig=None,
                                out_sig=[numpy.float32])
         self._center_freq = self.__hz_to_mhz(center_freq)
         self._bandwidth = self.__hz_to_mhz(bandwidth)
+        self._rx_ant = rx_ant
         print "FLEX:SOURCE:INIT"
         self.rx_buffer = None
         self.radio = None
@@ -85,6 +86,13 @@ class FlexSource(gr.sync_block):
         self._bandwidth = self.__hz_to_mhz(bandwidth)
         self.pan_adapter.Bandwidth = self._bandwidth
 
+    @property
+    def rx_ant(self):
+        """
+        Returns RX antenna in use.
+        """
+        return self._rx_ant
+
     def __iq_data_received(self, iq_stream, data):
         try:
             # Add the data to the receive buffer
@@ -125,10 +133,11 @@ class FlexSource(gr.sync_block):
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
         #self.pan_adapter.PropertyChanged += self.__property_changed
 
-        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz)".format(dax_ch,self.center_freq,self.bandwidth)
+        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(dax_ch,self.center_freq,self.bandwidth,self.rx_ant)
         self.pan_adapter.DAXIQChannel = dax_ch
         self.pan_adapter.CenterFreq = self.center_freq
         self.pan_adapter.Bandwidth = self.bandwidth
+        self.pan_adapter.RXAnt = self.rx_ant
 
         print "FlexSource::CreatingIQStream"
         self.iq_stream = self.radio.CreateIQStreamSync(dax_ch)

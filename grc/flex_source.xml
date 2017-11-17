@@ -30,8 +30,27 @@
   <param>
     <name>RX Antenna</name>
     <key>rx_ant</key>
-    <value>ANT1</value>
     <type>string</type>
+    <option>
+      <name>ANT1</name>
+      <key>ANT1</key>
+    </option>
+    <option>
+      <name>ANT2</name>
+      <key>ANT2</key>
+    </option>
+    <option>
+      <name>RX A</name>
+      <key>RX_A</key>
+    </option>
+    <option>
+      <name>RX B</name>
+      <key>RX_B</key>
+    </option>
+    <option>
+      <name>XVTR</name>
+      <key>XVTR</key>
+    </option>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:

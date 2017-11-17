@@ -31,8 +31,7 @@ from RingBuffer import RingBuffer
 
 class FlexSource(gr.sync_block):
     """
-    The FlexSource block used for streaming and interacting with IQ Data Streams
-    from the Flex Radio.
+    The FlexSource block used for streaming and interacting with IQ Data Streams from the Flex Radio.
     """
     def __init__(self, center_freq=15000000, bandwidth=5000000, rx_ant="ANT1"):
         gr.sync_block.__init__(self,

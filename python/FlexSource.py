@@ -49,7 +49,7 @@ class FlexSource(gr.sync_block):
         self.pan_adapter = None
 
     def __hz_to_mhz(self, hz):
-        mhz = hz/1000000
+        mhz = hz / 1000000
         return mhz
 
     @property
@@ -59,7 +59,7 @@ class FlexSource(gr.sync_block):
         """
         return self._center_freq
 
-    def set_center_freq(self,center_freq):
+    def set_center_freq(self, center_freq):
         """
         Sets the center frequency of the underlying Panadapter
 
@@ -76,7 +76,7 @@ class FlexSource(gr.sync_block):
         """
         return self._bandwidth
 
-    def set_bandwidth(self,bandwidth):
+    def set_bandwidth(self, bandwidth):
         """
         Sets the bandwidth of the underlying Panadapter
 
@@ -93,7 +93,7 @@ class FlexSource(gr.sync_block):
         """
         return self._rx_ant
 
-    def set_rx_ant(self,rx_ant):
+    def set_rx_ant(self, rx_ant):
         """
         Sets the RX antenna of the underlying Panadapter
 
@@ -126,7 +126,7 @@ class FlexSource(gr.sync_block):
         - Creates IQ Stream and begins listening
     """
     def start(self):
-        self.rx_buffer = RingBuffer(4096) # 4 times the UDP payload size
+        self.rx_buffer = RingBuffer(4096)  # 4 times the UDP payload size
         print "FlexSource::Starting..."
         self.radio = FlexApi().getRadio()
 
@@ -141,9 +141,9 @@ class FlexSource(gr.sync_block):
         for p in pans:
             p.Close(True)
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
-        #self.pan_adapter.PropertyChanged += self.__property_changed
+        # self.pan_adapter.PropertyChanged += self.__property_changed
 
-        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(dax_ch,self.center_freq,self.bandwidth,self.rx_ant)
+        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(dax_ch, self.center_freq, self.bandwidth, self.rx_ant)
         self.pan_adapter.DAXIQChannel = dax_ch
         self.pan_adapter.CenterFreq = self.center_freq
         self.pan_adapter.Bandwidth = self.bandwidth
@@ -165,7 +165,7 @@ class FlexSource(gr.sync_block):
         self.pan_adapter.Close(True)
         self.iq_stream.Close()
         del self.rx_buffer
-        #self.received_queue.join()
+        # self.received_queue.join()
         print("FlexSource::Removed IQ & Panadapter, finished Queue")
         return True
 

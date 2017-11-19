@@ -32,7 +32,7 @@ You will need the following pre-requisites installed on your machine (in this or
 - [cmake](cmake.org)
 
 
-#### Linux
+## Linux
 > tested with Ubuntu 16.04
 
 - GNU Radio
@@ -53,28 +53,35 @@ You will need the following pre-requisites installed on your machine (in this or
   ```
 
 ## macOS
-> tested with macOS 10.13 with [MacPorts](https://www.macports.org/) 2.4.2
+> tested with macOS 10.13 with [Homebrew](https://www.brew.sh/)
 
-- Xcode **Can be installed from the App Store**
+### Package manager
+I've classically used MacPorts for everything but for this I went with Homebrew. Installing GNU Radio with Macports is supported and easy, but installing everything else is only well supported via brew. So take your pick. I opted for annoying gnuradio install and easy everything else install.
+
+**Do not have both MacPorts and HomeBrew installed at once** - It'll just suck, probably. To uninstall MacPorts go to [their guide](https://guide.macports.org/chunked/installing.macports.uninstalling.html), they update it regularly so I don't want to copy out the commands here.
+
+
+#### Install homebrew
+Visit [their site](https://brew.sh/) where there will be up-to-date notes if you're on a weird or newer OS. The probably permanently useful install can be executed with:
+```
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+### Dependencies
+- Xcode Command Line Tools
   ```
   xcode-select --installed
   ```
+- [Python](https://www.python.org/download/releases/2.7/)
+
+  It does require python 2.7 and although you probably definitely already have it installed on your system I went ahead and installed it again to make sure everything was up to date.
+
+- [XQuartz/X11](https://www.xquartz.org/)
 
 - GNU Radio
-  > [XQuartz/X11](https://www.xquartz.org/) is a prerequisite for GNU Radio
-  ```
-  sudo port -v install xorg-server
-  ```
 
-  ```
-  sudo port install gnuradio
-  ```
+  This is the part that kind of sucks. You no longer have MacPorts installed so the recommended install of GNU Radio by the group that made GNU Radio doesn't apply. There is a brew package that will install GNU Radio, `brew install gnuradio` but since brew dropped support for qt4 in favour of qt5 the install leaves you without GNU Radio Companion which we want (probably). You can bugger around with installing qt4 or you can check out [this handy repo](https://github.com/cfriedt/gnuradio-for-mac-without-macports) which allows you to install it as a `.dmg`.
 
-- Python **(should already exist on your system)**
-  ```
-  sudo port select --set python python27
-  sudo port select --set python2 python27
-  ```
 
 - Mono
   >Although it can be installed via MacPorts, the port is often outdated (at the time of this writing, the active version is 5.4.0 Stable and the latest port is 3.12.1). As such, it's best to install it via the .pkg available at [the Mono website](http://www.mono-project.com/download/)

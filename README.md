@@ -80,7 +80,7 @@ Visit [their site](https://brew.sh/) where there will be up-to-date notes if you
 
 - GNU Radio
 
-  This is the part that kind of sucks. You no longer have MacPorts installed so the recommended install of GNU Radio by the group that made GNU Radio doesn't apply. There is a brew package that will install GNU Radio, `brew install gnuradio` but since brew dropped support for qt4 in favour of qt5 the install leaves you without GNU Radio Companion which we want. You can bugger around with installing qt4 or you can check out [this handy repo](https://github.com/cfriedt/gnuradio-for-mac-without-macports) which allows you to install it as a `.dmg`.
+  This is the part that kind of sucks. You no longer have MacPorts installed so the recommended install of GNU Radio by the group that made GNU Radio doesn't apply. There is a brew package that will install GNU Radio, `brew install gnuradio` but since brew dropped support for qt4 in favour of qt5 the install leaves you without GNU Radio Companion which we want. You can bugger around with installing qt4 or you can check out [this handy repo](https://github.com/cfriedt/gnuradio-for-mac-without-macports) which allows you to install it as a `.app`.
 
 - pip (_Maybe not necessary. Try only setuptools below_)
   ```

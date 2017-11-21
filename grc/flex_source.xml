@@ -4,9 +4,10 @@
   <key>flex_source</key>
   <category>Flex Radio</category>
   <import>import flex</import>
-  <make>flex.FlexSource($center_freq, $bandwidth)</make>
+  <make>flex.FlexSource($center_freq, $bandwidth, $rx_ant)</make>
   <callback>set_center_freq($center_freq)</callback>
   <callback>set_bandwidth($bandwidth)</callback>
+  <callback>set_rx_ant($rx_ant)</callback>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -24,6 +25,32 @@
     <key>bandwidth</key>
     <value>5000000</value>
     <type>float</type>
+  </param>
+
+  <param>
+    <name>RX Antenna</name>
+    <key>rx_ant</key>
+    <type>string</type>
+    <option>
+      <name>ANT1</name>
+      <key>ANT1</key>
+    </option>
+    <option>
+      <name>ANT2</name>
+      <key>ANT2</key>
+    </option>
+    <option>
+      <name>RX A</name>
+      <key>RX_A</key>
+    </option>
+    <option>
+      <name>RX B</name>
+      <key>RX_B</key>
+    </option>
+    <option>
+      <name>XVTR</name>
+      <key>XVTR</key>
+    </option>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:

@@ -31,16 +31,16 @@ from RingBuffer import RingBuffer
 
 class FlexSource(gr.sync_block):
     """
-    The FlexSource block used for streaming and interacting with IQ Data Streams
-    from the Flex Radio.
+    The FlexSource block used for streaming and interacting with IQ Data Streams from the Flex Radio.
     """
-    def __init__(self, center_freq=15000000, bandwidth=5000000):
+    def __init__(self, center_freq=15000000, bandwidth=5000000, rx_ant="ANT1"):
         gr.sync_block.__init__(self,
                                name="source",
                                in_sig=None,
                                out_sig=[numpy.float32])
         self._center_freq = self.__hz_to_mhz(center_freq)
         self._bandwidth = self.__hz_to_mhz(bandwidth)
+        self._rx_ant = rx_ant
         print "FLEX:SOURCE:INIT"
         self.rx_buffer = None
         self.radio = None
@@ -48,7 +48,7 @@ class FlexSource(gr.sync_block):
         self.pan_adapter = None
 
     def __hz_to_mhz(self, hz):
-        mhz = hz/1000000
+        mhz = hz / 1000000
         return mhz
 
     @property
@@ -58,7 +58,7 @@ class FlexSource(gr.sync_block):
         """
         return self._center_freq
 
-    def set_center_freq(self,center_freq):
+    def set_center_freq(self, center_freq):
         """
         Sets the center frequency of the underlying Panadapter
 
@@ -75,7 +75,7 @@ class FlexSource(gr.sync_block):
         """
         return self._bandwidth
 
-    def set_bandwidth(self,bandwidth):
+    def set_bandwidth(self, bandwidth):
         """
         Sets the bandwidth of the underlying Panadapter
 
@@ -84,6 +84,23 @@ class FlexSource(gr.sync_block):
         """
         self._bandwidth = self.__hz_to_mhz(bandwidth)
         self.pan_adapter.Bandwidth = self._bandwidth
+
+    @property
+    def rx_ant(self):
+        """
+        Returns RX antenna in use.
+        """
+        return self._rx_ant
+
+    def set_rx_ant(self, rx_ant):
+        """
+        Sets the RX antenna of the underlying Panadapter
+
+        Args:
+            rx_ant: the new RX antenna to use
+        """
+        self._rx_ant = self.rx_ant
+        self.pan_adapter.RXAnt = self._rx_ant
 
     def __iq_data_received(self, iq_stream, data):
         try:
@@ -108,7 +125,7 @@ class FlexSource(gr.sync_block):
         - Creates IQ Stream and begins listening
     """
     def start(self):
-        self.rx_buffer = RingBuffer(4096) # 4 times the UDP payload size
+        self.rx_buffer = RingBuffer(4096)  # 4 times the UDP payload size
         print "FlexSource::Starting..."
         self.radio = FlexApi().getRadio()
 
@@ -123,12 +140,13 @@ class FlexSource(gr.sync_block):
         for p in pans:
             p.Close(True)
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
-        #self.pan_adapter.PropertyChanged += self.__property_changed
+        # self.pan_adapter.PropertyChanged += self.__property_changed
 
-        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz)".format(dax_ch,self.center_freq,self.bandwidth)
+        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(dax_ch, self.center_freq, self.bandwidth, self.rx_ant)
         self.pan_adapter.DAXIQChannel = dax_ch
         self.pan_adapter.CenterFreq = self.center_freq
         self.pan_adapter.Bandwidth = self.bandwidth
+        self.pan_adapter.RXAnt = self.rx_ant
 
         print "FlexSource::CreatingIQStream"
         self.iq_stream = self.radio.CreateIQStreamSync(dax_ch)
@@ -146,7 +164,7 @@ class FlexSource(gr.sync_block):
         self.pan_adapter.Close(True)
         self.iq_stream.Close()
         del self.rx_buffer
-        #self.received_queue.join()
+        # self.received_queue.join()
         print("FlexSource::Removed IQ & Panadapter, finished Queue")
         return True
 

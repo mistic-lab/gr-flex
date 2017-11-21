@@ -99,16 +99,10 @@ Visit [their site](https://brew.sh/) where there will be up-to-date notes if you
 
 - Mono
   ```
-  brew install mono
+  brew cask install mono-mdk
   ```
   ```
-  export PKG_CONFIG_PATH=/usr/local/Cellar/pkg-config/0.29.2/bin/pkg-config:/usr/local/Cellar/mono/5.0.1.1/lib/pkgconfig
-  ```
-  ```
-  export DYLD_LIBRARY_PATH=/usr/local/Cellar/mono/5.0.1.1/lib
-  ```
-  ```
-  export PATH=$PATH:/Library/Frameworks/Mono.framework/Versions/Current/bin/
+  PKG_CONFIG_PATH=/Library/Frameworks/Mono.framework/Versions/{x.x.x}/lib/pkgconfig/
   ```
 
 - setuptools
@@ -118,14 +112,23 @@ Visit [their site](https://brew.sh/) where there will be up-to-date notes if you
   ```
 
 - PythonNet **(if the following doesn't work, see the [troubleshooting](#troubleshooting) section)**
-```
-sudo -H pip install pythonnet
-```
+  ```
+  git clone https://github.com/pythonnet/pythonnet
+  cd pythonnet/
+  ```
+  ```
+  python setup.py bdist_wheel
+  ```
+  > Look inside the newly created dist/ folder for the details of this command
+  ```
+  sudo pip install --user dist/pythonnet-{pythonnet version}-{cpython version}-{mac veresion}.whl
+  ```
 
 - cmake
-```
-sudo apt-get install cmake
-```
+  ```
+  brew install cmake
+
+  ```
 
 ### Installing the Block
 
@@ -187,12 +190,8 @@ If in Linux (Ubuntu), run:
 ```
 sudo -H pip install setuptools --upgrade
 ```
-If in macOS, run:
-```
-sudo -H pip install setuptools --upgrade --user python
-```
 
-- [gliblib](https://packages.ubuntu.com/xenial/libglib2.0-dev) **(in Ubuntu the following is necessary. The macOS installer includes this.)**
+- [gliblib](https://packages.ubuntu.com/xenial/libglib2.0-dev)
 ```
 sudo apt-get install libglib2.0-dev
 ```

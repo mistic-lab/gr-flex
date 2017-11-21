@@ -221,7 +221,7 @@ Pull Requests are welcome.
 * **Colter Mcquay** - *Initial work*
 * **Nicholas Bruce** - *Follow up slave-labour*
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/cjam/gr-flex/contributors) who participated in this project.
 
 ## License
 

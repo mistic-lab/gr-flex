@@ -15,7 +15,7 @@ An out-of-tree GNU Radio block for communicating with the FlexRadio
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-This project uses a .Net library called FlexlibMono which I have forked and included as a submodule within this project.  You will need to run
+This project uses a .NET library called FlexlibMono which I have forked and included as a submodule within this project.  You will need to run
 
 `git submodule update --init`
 
@@ -58,7 +58,7 @@ You will need the following pre-requisites installed on your machine (in this or
 ### Package manager
 I've classically used MacPorts for everything but for this I went with Homebrew. Installing GNU Radio with Macports is supported and easy, but installing everything else is only well supported via brew. So take your pick. I opted for annoying gnuradio install and easy everything else install.
 
-**Do not have both MacPorts and HomeBrew installed at once** - It'll just suck, probably. To uninstall MacPorts go to [their guide](https://guide.macports.org/chunked/installing.macports.uninstalling.html), they update it regularly so I don't want to copy out the commands here.
+**Do not have both MacPorts and HomeBrew installed at once** - It'll just suck, probably. To uninstall MacPorts go to [their guide](https://guide.macports.org/chunked/installing.macports.uninstalling.html). They update it regularly so I don't want to copy out the commands here.
 
 
 #### Install homebrew
@@ -80,26 +80,48 @@ Visit [their site](https://brew.sh/) where there will be up-to-date notes if you
 
 - GNU Radio
 
-  This is the part that kind of sucks. You no longer have MacPorts installed so the recommended install of GNU Radio by the group that made GNU Radio doesn't apply. There is a brew package that will install GNU Radio, `brew install gnuradio` but since brew dropped support for qt4 in favour of qt5 the install leaves you without GNU Radio Companion which we want (probably). You can bugger around with installing qt4 or you can check out [this handy repo](https://github.com/cfriedt/gnuradio-for-mac-without-macports) which allows you to install it as a `.dmg`.
+  This is the part that kind of sucks. You no longer have MacPorts installed so the recommended install of GNU Radio by the group that made GNU Radio doesn't apply. There is a brew package that will install GNU Radio, `brew install gnuradio` but since brew dropped support for qt4 in favour of qt5 the install leaves you without GNU Radio Companion which we want. You can bugger around with installing qt4 or you can check out [this handy repo](https://github.com/cfriedt/gnuradio-for-mac-without-macports) which allows you to install it as a `.dmg`.
 
+- pip (_Maybe not necessary. Try only setuptools below_)
+  ```
+  sudo easy_install pip
+  ```
+
+- PKG-CONFIG
+  ```
+  brew install pkg-config
+  ```
+
+- glib 2
+  ```
+  brew install glib --universal
+  ```
 
 - Mono
-  >Although it can be installed via MacPorts, the port is often outdated (at the time of this writing, the active version is 5.4.0 Stable and the latest port is 3.12.1). As such, it's best to install it via the .pkg available at [the Mono website](http://www.mono-project.com/download/)
-
-  > Once installed, run:
+  ```
+  brew install mono
+  ```
+  ```
+  export PKG_CONFIG_PATH=/usr/local/Cellar/pkg-config/0.29.2/bin/pkg-config:/usr/local/Cellar/mono/5.0.1.1/lib/pkgconfig
+  ```
+  ```
+  export DYLD_LIBRARY_PATH=/usr/local/Cellar/mono/5.0.1.1/lib
+  ```
   ```
   export PATH=$PATH:/Library/Frameworks/Mono.framework/Versions/Current/bin/
   ```
 
-- pip
+- setuptools
   ```
-  sudo easy_install pip
+  wget https://bootstrap.pypa.io/get-pip.py
+  sudo -H python get-pip.py
   ```
 
 - PythonNet **(if the following doesn't work, see the [troubleshooting](#troubleshooting) section)**
 ```
 sudo -H pip install pythonnet
 ```
+
 - cmake
 ```
 sudo apt-get install cmake
@@ -113,6 +135,7 @@ Once all of the pre-requisites are installed, you can run the build script withi
 cd <repo_director>
 sudo ./build.sh
 ```
+
 This script will do the following:
 
 - Build the Flexlib Mono project with MSBuild (Release Configuration)

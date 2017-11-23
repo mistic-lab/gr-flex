@@ -149,9 +149,7 @@ class FlexSource(gr.sync_block):
         self.pan_adapter.RXAnt = self.rx_ant
 
         print "FlexSource::CreatingIQStream"
-        interleaved_IQ_data = self.radio.CreateIQStreamSync(dax_ch)
-        complex_IQ_data = interleaved_IQ_data.astype(numpy.float32).view(numpy.complex64)
-        self.iq_stream = complex_IQ_data
+        self.iq_stream = self.radio.CreateIQStreamSync(dax_ch)
         self.iq_stream.DataReady += self.__iq_data_received
         self.iq_stream.SampleRate = sample_rate
         print "FlexSource::IQStreamCreated"

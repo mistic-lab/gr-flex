@@ -47,7 +47,7 @@ class RingBuffer(object):
 
     @property
     def is_empty(self):
-        """ Gets whether or not thxe buffer is currently empty """
+        """ Gets whether or not the buffer is currently empty """
         with self.__lock:
             return self.__size_used == 0
 

@@ -132,14 +132,30 @@ Visit [their site](https://brew.sh/) where there will be up-to-date notes if you
 
 ### Installing the Block
 
-Once all of the pre-requisites are installed, you can run the build script within the root of the project.
-
+Once all of the pre-requisites are installed, you can run the build script within the root of the project. A slight tweak needs to be made if GNU Radio was installed using PyBombs. For a non-pybombs install:
 ```
-cd <repo_director>
+cd REPO_DIRECTORY
 sudo ./build.sh
 ```
 
-This script will do the following:
+For a PyBombs install of GNU Radio, you need to open the script and comment out (prepend with a #) the following few lines near the bottom which say:
+```
+cmake ../
+make
+sudo make install
+```
+
+Then to install:
+```
+cd REPO_DIRECTORY
+sudo ./build.sh
+cd build/
+cmake -DCMAKE_INSTALL_PREFIX=/FULL/PATH/TO/PYBOMBS/PREFIX ../
+sudo make
+sudo make install
+```
+
+This script will do some or all of the following (depending on which version of the install you used):
 
 - Build the Flexlib Mono project with MSBuild (Release Configuration)
 - Copy the resulting binaries into the gr-flex module

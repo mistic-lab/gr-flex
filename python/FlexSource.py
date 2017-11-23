@@ -37,7 +37,7 @@ class FlexSource(gr.sync_block):
         gr.sync_block.__init__(self,
                                name="source",
                                in_sig=None,
-                               out_sig=[numpy.float32])
+                               out_sig=[numpy.complex64])
         self._center_freq = self.__hz_to_mhz(center_freq)
         self._bandwidth = self.__hz_to_mhz(bandwidth)
         self._rx_ant = rx_ant

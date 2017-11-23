@@ -172,6 +172,8 @@ Here's how the **Flex Source** block currently looks in GNU Radio:
 
 ![Flex Block](./images/flex-source-block.png)
 
+If you installed GNU Radio via PyBombs, then running the block may cause GNU Radio to throw weird library errors. Check out the [troubleshooting section](#library-errors) for more info.
+
 ### Sample Apps
 See the sample **GRC** files that have been placed into the `examples/` directory of this repo:
 
@@ -188,6 +190,8 @@ When the Flex Source starts up, it will go through the discovery process and out
 ![Sample Output](./images/sample-output.png)
 
 ## Troubleshooting
+
+### PythonNet
 If you're having problems installing [PythonNet](#pythonnet) the following may help. We have no idea why some of these things work, but if they're listed below it was part of our solution. There is [a documented problem](https://github.com/pythonnet/pythonnet/issues/555) at the time of this writing (Nov. 2017) to get PythonNet running with Mono.
 
 - [setuptools](pypi.python.org/pypi/setuptools) **(At least on Ubuntu 16.04, setuptools is likely outdated which causes problems installing pip as well as pythonnet)**. To check which version you have, run:
@@ -216,6 +220,45 @@ sudo apt-get install libglib2.0-dev
 ```
 sudo pip install git+https://github.com/pythonnet/pythonnet --egg
 ```
+
+### Library errors
+If you see the following error or similar from GNU Radio when trying to run a flowgraph, this section may help you.
+```
+Generating: '/home/username/Documents/gr-flex/examples/top_block.py'
+>>> Warning: This flow graph may not have flow control: no audio or RF hardware blocks found. Add a Misc->Throttle block to your flow graph to avoid CPU congestion.
+
+Executing: /usr/bin/python2 -u /home/username/Documents/gr-flex/examples/top_block.py
+
+Traceback (most recent call last):
+  File "/home/username/Documents/gr-flex/examples/top_block.py", line 19, in <module>
+    from gnuradio import blocks
+  File "/home/username/prefix/default/lib/python2.7/dist-packages/gnuradio/blocks/__init__.py", line 32, in <module>
+    from blocks_swig import *
+  File "/home/username/prefix/default/lib/python2.7/dist-packages/gnuradio/blocks/blocks_swig.py", line 22, in <module>
+    from blocks_swig0 import *
+  File "/home/username/prefix/default/lib/python2.7/dist-packages/gnuradio/blocks/blocks_swig0.py", line 28, in <module>
+    _blocks_swig0 = swig_import_helper()
+  File "/home/username/prefix/default/lib/python2.7/dist-packages/gnuradio/blocks/blocks_swig0.py", line 24, in swig_import_helper
+    _mod = imp.load_module('_blocks_swig0', fp, pathname, description)
+ImportError: libgnuradio-blocks-3.7.12git.so.0.0.0: cannot open shared object file: No such file or directory
+
+>>> Done (return code 1)
+```
+
+Run locate, and make sure that the files do exist.
+```
+$ locate libgnuradio-blocks-3.7.12git.so.0.0.0
+/home/username/prefix/default/lib/libgnuradio-blocks-3.7.12git.so.0.0.0
+/home/username/prefix/default/src/gnuradio/build/gr-blocks/lib/libgnuradio-blocks-3.7.12git.so.0.0.0
+```
+
+In this case, the path to the library is `/home/username/prefix/default/lib` and apparently python isn't looking there. Run `ldconfig -p` to see whether it is looking in the prefix folder. If not, the following got me going.
+```
+sudo su
+echo "/home/username/prefix/default/lib" > /etc/ld.so.conf.d/local.conf
+ldconfig
+```
+Now exit `su` and check with `ldconfig -p` whether it's now looking in the prefix folder. If so, you should be good to go.
 
 ## Running the tests
 

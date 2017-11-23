@@ -37,7 +37,7 @@ class FlexSource(gr.sync_block):
         gr.sync_block.__init__(self,
                                name="source",
                                in_sig=None,
-                               out_sig=[numpy.float32])
+                               out_sig=[numpy.complex64])
         self._center_freq = self.__hz_to_mhz(center_freq)
         self._bandwidth = self.__hz_to_mhz(bandwidth)
         self._rx_ant = rx_ant
@@ -149,7 +149,9 @@ class FlexSource(gr.sync_block):
         self.pan_adapter.RXAnt = self.rx_ant
 
         print "FlexSource::CreatingIQStream"
-        self.iq_stream = self.radio.CreateIQStreamSync(dax_ch)
+        interleaved_IQ_data = self.radio.CreateIQStreamSync(dax_ch)
+        complex_IQ_data = interleaved_IQ_data.astype(numpy.float32).view(numpy.complex64)
+        self.iq_stream = complex_IQ_data
         self.iq_stream.DataReady += self.__iq_data_received
         self.iq_stream.SampleRate = sample_rate
         print "FlexSource::IQStreamCreated"

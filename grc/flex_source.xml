@@ -69,7 +69,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>Interleaved IQ</name>
-    <type>float</type>
+    <name>IQ</name>
+    <type>complex</type>
   </source>
 </block>

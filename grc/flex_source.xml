@@ -8,6 +8,7 @@
   <callback>set_center_freq($center_freq)</callback>
   <callback>set_bandwidth($bandwidth)</callback>
   <callback>set_rx_ant($rx_ant)</callback>
+  <callback>set_dax_iq_ch($dax_iq_ch)</callback>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -50,6 +51,63 @@
     <option>
       <name>XVTR</name>
       <key>XVTR</key>
+    </option>
+  </param>
+
+  <!-- Can this be done iteratively?
+       I'm stuck on a ferry without
+       internet... XML is lame.     -->
+  <param>
+    <name>DAX IQ Channel</name>
+    <key>dax_iq_ch</key>
+    <type>int</type>
+    <option>
+      <name>1</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>2</name>
+      <key>2</key>
+    </option>
+    <option>
+      <name>3</name>
+      <key>3</key>
+    </option>
+    <option>
+      <name>4</name>
+      <key>4</key>
+    </option>
+    <option>
+      <name>5</name>
+      <key>5</key>
+    </option>
+    <option>
+      <name>6</name>
+      <key>6</key>
+    </option>
+    <option>
+      <name>7</name>
+      <key>7</key>
+    </option>
+    <option>
+      <name>8</name>
+      <key>8</key>
+    </option>
+    <option>
+      <name>9</name>
+      <key>9</key>
+    </option>
+    <option>
+      <name>10</name>
+      <key>10</key>
+    </option>
+    <option>
+      <name>11</name>
+      <key>11</key>
+    </option>
+    <option>
+      <name>12</name>
+      <key>12</key>
     </option>
   </param>
 

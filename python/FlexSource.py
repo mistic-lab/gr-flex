@@ -33,7 +33,7 @@ class FlexSource(gr.sync_block):
     """
     The FlexSource block used for streaming and interacting with IQ Data Streams from the Flex Radio.
     """
-    def __init__(self, center_freq=15000000, bandwidth=5000000, rx_ant="ANT1"):
+    def __init__(self, center_freq=15000000, bandwidth=5000000, rx_ant="ANT1", dax_iq_ch=1):
         gr.sync_block.__init__(self,
                                name="source",
                                in_sig=None,
@@ -41,6 +41,7 @@ class FlexSource(gr.sync_block):
         self._center_freq = self.__hz_to_mhz(center_freq)
         self._bandwidth = self.__hz_to_mhz(bandwidth)
         self._rx_ant = rx_ant
+        self._dax_iq_ch = dax_iq_ch
         print "FLEX:SOURCE:INIT"
         self.rx_buffer = None
         self.radio = None
@@ -102,6 +103,23 @@ class FlexSource(gr.sync_block):
         self._rx_ant = self.rx_ant
         self.pan_adapter.RXAnt = self._rx_ant
 
+    @property
+    def dax_iq_ch(self):
+        """
+        Returns dax_iq_ch in use.
+        """
+        return self._dax_iq_ch
+
+    def set_dax_iq_ch(self, dax_iq_ch):
+        """
+        Sets the DAX IQ channel of the underlying Panadapter
+
+        Args:
+            dax_iq_ch: the new DAX IQ channel to use
+        """
+        self._dax_iq_ch = self.dax_iq_ch
+        self.pan_adapter.DAXIQChannel = self._dax_iq_ch
+
     def __iq_data_received(self, iq_stream, data):
         try:
             # Add the data to the receive buffer
@@ -130,7 +148,7 @@ class FlexSource(gr.sync_block):
         self.radio = FlexApi().getRadio()
 
         # TODO: make these parameters of source block
-        dax_ch = 1
+        # dax_ch = 1 # if exposure via block is working you can remove this line
         sample_rate = 192000
 
         print "FlexSource::GetOrCreatePanAdapter"
@@ -143,7 +161,7 @@ class FlexSource(gr.sync_block):
         # self.pan_adapter.PropertyChanged += self.__property_changed
 
         print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(dax_ch, self.center_freq, self.bandwidth, self.rx_ant)
-        self.pan_adapter.DAXIQChannel = dax_ch
+        self.pan_adapter.DAXIQChannel = self.dax_iq_ch
         self.pan_adapter.CenterFreq = self.center_freq
         self.pan_adapter.Bandwidth = self.bandwidth
         self.pan_adapter.RXAnt = self.rx_ant

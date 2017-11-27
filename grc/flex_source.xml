@@ -4,7 +4,7 @@
   <key>flex_source</key>
   <category>Flex Radio</category>
   <import>import flex</import>
-  <make>flex.FlexSource($center_freq, $bandwidth, $rx_ant)</make>
+  <make>flex.FlexSource($center_freq, $bandwidth, $rx_ant, $dax_iq_ch)</make>
   <callback>set_center_freq($center_freq)</callback>
   <callback>set_bandwidth($bandwidth)</callback>
   <callback>set_rx_ant($rx_ant)</callback>
@@ -54,9 +54,6 @@
     </option>
   </param>
 
-  <!-- Can this be done iteratively?
-       I'm stuck on a ferry without
-       internet... XML is lame.     -->
   <param>
     <name>DAX IQ Channel</name>
     <key>dax_iq_ch</key>

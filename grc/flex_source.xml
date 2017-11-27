@@ -62,10 +62,6 @@
     <key>dax_iq_ch</key>
     <type>int</type>
     <option>
-      <name>None</name>
-      <key>0</key>
-    </option>
-    <option>
       <name>1</name>
       <key>1</key>
     </option>

@@ -117,13 +117,8 @@ class FlexSource(gr.sync_block):
         Args:
             dax_iq_ch: the new DAX IQ channel to use
         """
-        print 'HI IM HERE TO SET THE DAX IQ CHANNEL'
-        print 'BEFORE I START: self.dax_iq_ch={0}'.format(self.dax_iq_ch)
         self._dax_iq_ch = self.dax_iq_ch
-        print 'CHANGED A BIT: self._dax_iq_ch={0}'.format(self._dax_iq_ch)
-        print 'pan_DAX={0}'.format(self.pan_adapter.DAXIQChannel)
         self.pan_adapter.DAXIQChannel = self._dax_iq_ch
-        print 'pan_DAX take 2={0}'.format(self.pan_adapter.DAXIQChannel)
 
     def __iq_data_received(self, iq_stream, data):
         try:

@@ -117,8 +117,13 @@ class FlexSource(gr.sync_block):
         Args:
             dax_iq_ch: the new DAX IQ channel to use
         """
+        print 'HI IM HERE TO SET THE DAX IQ CHANNEL'
+        print 'BEFORE I START: self.dax_iq_ch={0}'.format(self.dax_iq_ch)
         self._dax_iq_ch = self.dax_iq_ch
+        print 'CHANGED A BIT: self._dax_iq_ch={0}'.format(self._dax_iq_ch)
+        print 'pan_DAX={0}'.format(self.pan_adapter.DAXIQChannel)
         self.pan_adapter.DAXIQChannel = self._dax_iq_ch
+        print 'pan_DAX take 2={0}'.format(self.pan_adapter.DAXIQChannel)
 
     def __iq_data_received(self, iq_stream, data):
         try:
@@ -158,7 +163,7 @@ class FlexSource(gr.sync_block):
         for p in pans:
             p.Close(True)
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
-        # self.pan_adapter.PropertyChanged += self.__property_changed
+        self.pan_adapter.PropertyChanged += self.__property_changed
 
         print "FlexSource::Panadapter created (DAX IQ Ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant)
         self.pan_adapter.DAXIQChannel = self.dax_iq_ch

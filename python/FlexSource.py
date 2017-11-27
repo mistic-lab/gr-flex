@@ -160,14 +160,14 @@ class FlexSource(gr.sync_block):
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
         # self.pan_adapter.PropertyChanged += self.__property_changed
 
-        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(dax_ch, self.center_freq, self.bandwidth, self.rx_ant)
+        print "FlexSource::Panadapter created (DAX IQ Ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant)
         self.pan_adapter.DAXIQChannel = self.dax_iq_ch
         self.pan_adapter.CenterFreq = self.center_freq
         self.pan_adapter.Bandwidth = self.bandwidth
         self.pan_adapter.RXAnt = self.rx_ant
 
         print "FlexSource::CreatingIQStream"
-        self.iq_stream = self.radio.CreateIQStreamSync(dax_ch)
+        self.iq_stream = self.radio.CreateIQStreamSync(self.dax_iq_ch)
         self.iq_stream.DataReady += self.__iq_data_received
         self.iq_stream.SampleRate = sample_rate
         print "FlexSource::IQStreamCreated"

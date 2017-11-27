@@ -130,11 +130,11 @@ class FlexSource(gr.sync_block):
         except Exception as err:
             print err
 
-    """ # If uncommenting, also see the += line in def start(self)
+    # If uncommenting, also see the += line in def start(self)
     def __property_changed(self, sender, args):
-        if args.PropertyName == "Bandwidth":
-            print "{0} Bandwidth Changed".format(self.pan_adapter.Bandwidth)
-    """
+        if args.PropertyName == "DAXIQChannel":
+            print "{0} DAXIQChannel Changed".format(self.pan_adapter.DAXIQChannel)
+
 
     """
     Start method of GNU Block:

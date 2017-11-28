@@ -11,8 +11,8 @@
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -27,11 +27,14 @@ from gnuradio import gr
 from flex import FlexApi
 from RingBuffer import RingBuffer
 
+# For debugging... Sick comment, Nick.
+self._debug = False
 
 
 class FlexSource(gr.sync_block):
     """
-    The FlexSource block used for streaming and interacting with IQ Data Streams from the Flex Radio.
+    The FlexSource block used for streaming and interacting with IQ Data
+    Streams from the Flex Radio.
     """
     def __init__(self, center_freq=15000000, bandwidth=5000000, rx_ant="ANT1", dax_iq_ch=1):
         gr.sync_block.__init__(self,
@@ -130,11 +133,11 @@ class FlexSource(gr.sync_block):
         except Exception as err:
             print err
 
-    """# If uncommenting, also see the += line in def start(self)
-    def __property_changed(self, sender, args):
-        if args.PropertyName == "DAXIQChannel":
-            print "{0} DAXIQChannel Changed".format(self.pan_adapter.DAXIQChannel)
-    """
+    if self._debug:
+        def __property_changed(self, sender, args):
+            if args.PropertyName == "Bandwidth":
+                print "{0} Bandwidth Changed".format(
+                    self.pan_adapter.Bandwidth)
 
     """
     Start method of GNU Block:
@@ -157,10 +160,14 @@ class FlexSource(gr.sync_block):
         for p in pans:
             p.Close(True)
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
-        # self.pan_adapter.PropertyChanged += self.__property_changed
 
-        print "FlexSource::Panadapter created (DAX IQ Ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant)
-        self.pan_adapter.DAXIQChannel = self.dax_iq_ch
+        if self._debug:
+            self.pan_adapter.PropertyChanged += self.__property_changed
+
+        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, \
+        bandwidth:{2} MHz, RX antenna:{3} )".format(
+            dax_ch, self.center_freq, self.bandwidth, self.rx_ant)
+        self.pan_adapter.DAXIQChannel = dax_ch
         self.pan_adapter.CenterFreq = self.center_freq
         self.pan_adapter.Bandwidth = self.bandwidth
         self.pan_adapter.RXAnt = self.rx_ant
@@ -188,8 +195,8 @@ class FlexSource(gr.sync_block):
     """
     Since the Flex radio is pushing data to this computer via UDP,
     we push the data onto a queue and inside the work method (GNU-Radio's api)
-    we pull the appropriate amount of data off of the queue and push it into the
-    output buffer of the gnu block
+    we pull the appropriate amount of data off of the queue and push it into
+    the output buffer of the gnu block
     """
     def work(self, input_items, output_items):
         out = output_items[0]

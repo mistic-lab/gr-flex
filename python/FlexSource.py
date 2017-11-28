@@ -33,7 +33,7 @@ class FlexSource(gr.sync_block):
     """
     The FlexSource block used for streaming and interacting with IQ Data Streams from the Flex Radio.
     """
-    def __init__(self, center_freq=15000000, bandwidth=5000000, rx_ant="ANT1"):
+    def __init__(self, center_freq=15000000, bandwidth=5000000, rx_ant="ANT1", dax_iq_ch=1):
         gr.sync_block.__init__(self,
                                name="source",
                                in_sig=None,
@@ -41,6 +41,7 @@ class FlexSource(gr.sync_block):
         self._center_freq = self.__hz_to_mhz(center_freq)
         self._bandwidth = self.__hz_to_mhz(bandwidth)
         self._rx_ant = rx_ant
+        self._dax_iq_ch = dax_iq_ch
         print "FLEX:SOURCE:INIT"
         self.rx_buffer = None
         self.radio = None
@@ -102,6 +103,23 @@ class FlexSource(gr.sync_block):
         self._rx_ant = self.rx_ant
         self.pan_adapter.RXAnt = self._rx_ant
 
+    @property
+    def dax_iq_ch(self):
+        """
+        Returns dax_iq_ch in use.
+        """
+        return self._dax_iq_ch
+
+    def set_dax_iq_ch(self, dax_iq_ch):
+        """
+        Sets the DAX IQ channel of the underlying Panadapter
+
+        Args:
+            dax_iq_ch: the new DAX IQ channel to use
+        """
+        self._dax_iq_ch = self.dax_iq_ch
+        self.pan_adapter.DAXIQChannel = self._dax_iq_ch
+
     def __iq_data_received(self, iq_stream, data):
         try:
             # Add the data to the receive buffer
@@ -112,10 +130,10 @@ class FlexSource(gr.sync_block):
         except Exception as err:
             print err
 
-    """ # If uncommenting, also see the += line in def start(self)
+    """# If uncommenting, also see the += line in def start(self)
     def __property_changed(self, sender, args):
-        if args.PropertyName == "Bandwidth":
-            print "{0} Bandwidth Changed".format(self.pan_adapter.Bandwidth)
+        if args.PropertyName == "DAXIQChannel":
+            print "{0} DAXIQChannel Changed".format(self.pan_adapter.DAXIQChannel)
     """
 
     """
@@ -129,9 +147,8 @@ class FlexSource(gr.sync_block):
         print "FlexSource::Starting..."
         self.radio = FlexApi().getRadio()
 
-        # TODO: make these parameters of source block
-        dax_ch = 1
-        sample_rate = 192000
+        # TODO: make this a parameter of the source block
+        sample_rate = 192000 # Available in IQStream.cs
 
         print "FlexSource::GetOrCreatePanAdapter"
         pans = self.radio.WaitForPanadaptersSync()
@@ -142,14 +159,14 @@ class FlexSource(gr.sync_block):
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
         # self.pan_adapter.PropertyChanged += self.__property_changed
 
-        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(dax_ch, self.center_freq, self.bandwidth, self.rx_ant)
-        self.pan_adapter.DAXIQChannel = dax_ch
+        print "FlexSource::Panadapter created (DAX IQ Ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant)
+        self.pan_adapter.DAXIQChannel = self.dax_iq_ch
         self.pan_adapter.CenterFreq = self.center_freq
         self.pan_adapter.Bandwidth = self.bandwidth
         self.pan_adapter.RXAnt = self.rx_ant
 
         print "FlexSource::CreatingIQStream"
-        self.iq_stream = self.radio.CreateIQStreamSync(dax_ch)
+        self.iq_stream = self.radio.CreateIQStreamSync(self.dax_iq_ch)
         self.iq_stream.DataReady += self.__iq_data_received
         self.iq_stream.SampleRate = sample_rate
         print "FlexSource::IQStreamCreated"
@@ -186,14 +203,3 @@ class FlexSource(gr.sync_block):
             pass
 
         return num_outputs
-
-
-        #     for i in range(0, out.size - 1):
-        #         num = self.received_queue.get_nowait()
-        #         #out[i] = self.received_queue.get_nowait()
-        #         #self.received_queue.task_done()
-        #         #num_outputs = i
-        # except Queue.Empty:
-        #     # Happens when the queue is empty, no prob
-        #     pass
-        # return num_outputs

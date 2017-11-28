@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.9'?>
+<?grc format='1' created='3.7.12'?>
 <flow_graph>
   <timestamp>Wed Sep 27 14:37:17 2017</timestamp>
   <block>
@@ -73,12 +73,20 @@
       <value>True</value>
     </param>
     <param>
+      <key>sizing_mode</key>
+      <value>fixed</value>
+    </param>
+    <param>
       <key>thread_safe_setters</key>
       <value></value>
     </param>
     <param>
       <key>title</key>
       <value></value>
+    </param>
+    <param>
+      <key>placement</key>
+      <value>(0,0)</value>
     </param>
   </block>
   <block>
@@ -250,7 +258,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(272, 177)</value>
+      <value>(272, 248)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -301,7 +309,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(480, 177)</value>
+      <value>(480, 248)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -347,12 +355,16 @@
       <value></value>
     </param>
     <param>
+      <key>dax_iq_ch</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 174)</value>
+      <value>(40, 248)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -415,7 +427,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(664, 213)</value>
+      <value>(1064, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -526,7 +538,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(664, 36)</value>
+      <value>(1064, 108)</value>
     </param>
     <param>
       <key>_rotation</key>

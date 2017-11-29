@@ -27,6 +27,8 @@ from gnuradio import gr
 from flex import FlexApi
 from RingBuffer import RingBuffer
 
+# For debugging... Sick comment, Nick.
+self._debug = False
 
 class FlexSource(gr.sync_block):
     """

@@ -27,9 +27,6 @@ from gnuradio import gr
 from flex import FlexApi
 from RingBuffer import RingBuffer
 
-# For debugging... Sick comment, Nick.
-self._debug = False
-
 
 class FlexSource(gr.sync_block):
     """
@@ -50,6 +47,9 @@ class FlexSource(gr.sync_block):
         self.radio = None
         self.iq_stream = None
         self.pan_adapter = None
+
+        # For debugging... Sick comment, Nick.
+        self._debug = False
 
     def __hz_to_mhz(self, hz):
         mhz = hz / 1000000
@@ -133,11 +133,10 @@ class FlexSource(gr.sync_block):
         except Exception as err:
             print err
 
-    if self._debug:
-        def __property_changed(self, sender, args):
-            if args.PropertyName == "Bandwidth":
-                print "{0} Bandwidth Changed".format(
-                    self.pan_adapter.Bandwidth)
+    def __property_changed(self, sender, args):
+        if args.PropertyName == "Bandwidth":
+            print "{0} Bandwidth Changed".format(
+                self.pan_adapter.Bandwidth)
 
     """
     Start method of GNU Block:
@@ -203,8 +202,6 @@ class FlexSource(gr.sync_block):
         num_outputs = 0
         try:
             items = self.rx_buffer.get(out.size)
-            # deinterleave float items and recombine into complex
-            # might need to multiply or divide by 2 (size collected)
             items = items.astype(numpy.float32).view(numpy.complex64)
             num_outputs = items.size
             out[0:num_outputs] = items

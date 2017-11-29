@@ -165,7 +165,7 @@ class FlexSource(gr.sync_block):
             self.pan_adapter.PropertyChanged += self.__property_changed
 
         print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, \
-        bandwidth:{2} MHz, RX antenna:{3} )".format(
+            bandwidth:{2} MHz, RX antenna:{3} )".format(
             dax_ch, self.center_freq, self.bandwidth, self.rx_ant)
         self.pan_adapter.DAXIQChannel = dax_ch
         self.pan_adapter.CenterFreq = self.center_freq
@@ -203,6 +203,9 @@ class FlexSource(gr.sync_block):
         num_outputs = 0
         try:
             items = self.rx_buffer.get(out.size)
+            # deinterleave float items and recombine into complex
+            # might need to multiply or divide by 2 (size collected)
+            items = items.astype(numpy.float32).view(numpy.complex64)
             num_outputs = items.size
             out[0:num_outputs] = items
         except RingBuffer.Empty:

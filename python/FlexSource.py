@@ -27,8 +27,6 @@ from gnuradio import gr
 from flex import FlexApi
 from RingBuffer import RingBuffer
 
-# For debugging... Sick comment, Nick.
-self._debug = False
 
 class FlexSource(gr.sync_block):
     """
@@ -142,8 +140,8 @@ class FlexSource(gr.sync_block):
 
     """
     Start method of GNU Block:
-        - Get's active radio from api
-        - Get's / creates Panadapter
+        - Gets active radio from api
+        - Gets / creates Panadapter
         - Creates IQ Stream and begins listening
     """
     def start(self):

@@ -40,4 +40,5 @@ build
 
 
 Testing.txt
-apps/top_block.py
+examples/top_block.py
+.ropeproject

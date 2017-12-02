@@ -4,8 +4,11 @@
   <key>flex_source</key>
   <category>Flex Radio</category>
   <import>import flex</import>
-  <make>flex.FlexSource($center_freq)</make>
+  <make>flex.FlexSource($center_freq, $bandwidth, $rx_ant, $dax_iq_ch)</make>
   <callback>set_center_freq($center_freq)</callback>
+  <callback>set_bandwidth($bandwidth)</callback>
+  <callback>set_rx_ant($rx_ant)</callback>
+  <callback>set_dax_iq_ch($dax_iq_ch)</callback>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -14,8 +17,63 @@
   <param>
     <name>Center Frequency</name>
     <key>center_freq</key>
-    <value>center_freq</value>
+    <value>14000000</value>
     <type>float</type>
+  </param>
+
+  <param>
+    <name>Bandwidth</name>
+    <key>bandwidth</key>
+    <value>5000000</value>
+    <type>float</type>
+  </param>
+
+  <param>
+    <name>RX Antenna</name>
+    <key>rx_ant</key>
+    <type>string</type>
+    <option>
+      <name>ANT1</name>
+      <key>ANT1</key>
+    </option>
+    <option>
+      <name>ANT2</name>
+      <key>ANT2</key>
+    </option>
+    <option>
+      <name>RX A</name>
+      <key>RX_A</key>
+    </option>
+    <option>
+      <name>RX B</name>
+      <key>RX_B</key>
+    </option>
+    <option>
+      <name>XVTR</name>
+      <key>XVTR</key>
+    </option>
+  </param>
+
+  <param>
+    <name>DAX IQ Channel</name>
+    <key>dax_iq_ch</key>
+    <type>int</type>
+    <option>
+      <name>1</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>2</name>
+      <key>2</key>
+    </option>
+    <option>
+      <name>3</name>
+      <key>3</key>
+    </option>
+    <option>
+      <name>4</name>
+      <key>4</key>
+    </option>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -34,7 +92,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>Interleaved IQ</name>
-    <type>float</type>
+    <name>IQ</name>
+    <type>complex</type>
   </source>
 </block>

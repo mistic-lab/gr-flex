@@ -28,7 +28,7 @@ You will need the following pre-requisites installed on your machine (in this or
 - [Python](https://www.python.org/) (**required by GNU Radio**, gr-flex was tested with 2.7)
 - [Mono](http://www.mono-project.com/download/) **(only for MacOS/Linux systems)**
 - [pip](https://pip.pypa.io/en/stable/installing/) **(already installed if Python 2 >=2.7.9 is installed)**
-- [PythonNet]
+- [PythonNet](https://pythonnet.github.io/)
 - [cmake](cmake.org)
 
 
@@ -165,7 +165,12 @@ sudo make
 sudo make install
 ```
 
-This script will do some or all of the following (depending on which version of the install you used):
+The `-DCMAKE_INSTALL_PREFIX` flag on the `cmake` command will look slightly different in macOS if you choose to use the `.app` version of GNU Radio. In that case, the following can be used:
+```
+sudo cmake -DCMAKE_INSTALL_PREFIX=/Applications/GNURadio.app/Contents/MacOS/usr/ ../
+```
+
+The `build.sh` script will do some or all of the following (depending on which version of the install you used):
 
 - Build the Flexlib Mono project with MSBuild (Release Configuration)
 - Copy the resulting binaries into the gr-flex module
@@ -288,9 +293,9 @@ Pull Requests are welcome.
 ## Authors
 
 * **Colter Mcquay** - *Initial work*
-* **Nicholas Bruce** - *Follow up slave-labour*
+* **Nicholas Bruce**
 
-See also the list of [contributors](https://github.com/cjam/gr-flex/contributors) who participated in this project.
+You can also see the list of [contributors](https://github.com/cjam/gr-flex/contributors) who participated in this project.
 
 ## License
 
@@ -305,7 +310,3 @@ Thanks to the following students who wrote some reports that provided some insig
 - Donatus Unuigboje
 
 Thanks to [Frank Werner-Krippendorf](https://github.com/krippendorf) for the work on the [FlexlibMono](https://github.com/krippendorf/FlexlibMono) project which I forked and used as a submodule within this repository.
-
-[GNU Radio]: https://wiki.gnuradio.org/index.php/InstallingGR "GNU Radio"
-[PythonNet]: https://pythonnet.github.io/ "Python.Net"
-[Mono]: http://www.mono-project.com/download/ "Mono"

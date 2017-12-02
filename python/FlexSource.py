@@ -154,10 +154,12 @@ class FlexSource(gr.sync_block):
 
         print "FlexSource::GetOrCreatePanAdapter"
         pans = self.radio.WaitForPanadaptersSync()
-        # Close any panAdapters currently setup
-        # TODO: Probably not necessary to clean them all up as it will destroy other client's panadapters
+        # The following closes all open pans. I think the first test should be to just try running it without closing any existing pans and see what it does.
+        """
         for p in pans:
             p.Close(True)
+        """
+
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
 
         if self._debug:
@@ -184,7 +186,8 @@ class FlexSource(gr.sync_block):
     def stop(self):
         print("FlexSource::Removing IQ & Pan Adapter")
         self.iq_stream.DataReady -= self.__iq_data_received
-        self.pan_adapter.Close(True)
+        # I don't know that this is necessary either. Lets let them stack up and see what happens.
+        # self.pan_adapter.Close(True)
         self.iq_stream.Close()
         del self.rx_buffer
         # self.received_queue.join()

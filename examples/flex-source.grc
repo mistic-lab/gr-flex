@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.9'?>
+<?grc format='1' created='3.7.12'?>
 <flow_graph>
   <timestamp>Wed Sep 27 14:37:17 2017</timestamp>
   <block>
@@ -73,12 +73,20 @@
       <value>True</value>
     </param>
     <param>
+      <key>sizing_mode</key>
+      <value>fixed</value>
+    </param>
+    <param>
       <key>thread_safe_setters</key>
       <value></value>
     </param>
     <param>
       <key>title</key>
       <value></value>
+    </param>
+    <param>
+      <key>placement</key>
+      <value>(0,0)</value>
     </param>
   </block>
   <block>
@@ -93,11 +101,70 @@
     </param>
     <param>
       <key>value</key>
-      <value>14.07</value>
+      <value>5000000</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(432, 33)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>grid_pos</key>
+      <value></value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>bandwidth</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Bandwidth</value>
+    </param>
+    <param>
+      <key>max</key>
+      <value>15000000</value>
+    </param>
+    <param>
+      <key>min</key>
+      <value>15000</value>
+    </param>
+    <param>
+      <key>notebook</key>
+      <value></value>
+    </param>
+    <param>
+      <key>num_steps</key>
+      <value>1000</value>
+    </param>
+    <param>
+      <key>style</key>
+      <value>wx.SL_HORIZONTAL</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_slider</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>converver</key>
+      <value>float_converter</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>14000000</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -121,11 +188,11 @@
     </param>
     <param>
       <key>max</key>
-      <value>20</value>
+      <value>200000000</value>
     </param>
     <param>
       <key>min</key>
-      <value>.5</value>
+      <value>500</value>
     </param>
     <param>
       <key>notebook</key>
@@ -187,11 +254,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(272, 177)</value>
+      <value>(272, 248)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -238,11 +305,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(480, 177)</value>
+      <value>(480, 248)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -268,6 +335,10 @@
   <block>
     <key>flex_source</key>
     <param>
+      <key>bandwidth</key>
+      <value>bandwidth</value>
+    </param>
+    <param>
       <key>alias</key>
       <value></value>
     </param>
@@ -284,12 +355,16 @@
       <value></value>
     </param>
     <param>
+      <key>dax_iq_ch</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 188)</value>
+      <value>(40, 248)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -306,6 +381,10 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>rx_ant</key>
+      <value>ANT1</value>
     </param>
   </block>
   <block>
@@ -336,7 +415,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>fft_size</key>
@@ -348,7 +427,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(664, 213)</value>
+      <value>(680, 236)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -443,7 +522,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>fft_rate</key>
@@ -459,7 +538,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(664, 36)</value>
+      <value>(680, 28)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -533,6 +612,18 @@
   <connection>
     <source_block_id>flex_source_0</source_block_id>
     <sink_block_id>blocks_deinterleave_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>flex_source_0</source_block_id>
+    <sink_block_id>wxgui_fftsink2_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>flex_source_0</source_block_id>
+    <sink_block_id>wxgui_waterfallsink2_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

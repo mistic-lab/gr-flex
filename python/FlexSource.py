@@ -138,27 +138,29 @@ class FlexSource(gr.sync_block):
             print "{0} Bandwidth Changed".format(
                 self.pan_adapter.Bandwidth)
 
-    """
-    Start method of GNU Block:
-        - Gets active radio from api
-        - Gets / creates Panadapter
-        - Creates IQ Stream and begins listening
-    """
     def start(self):
+        """
+        Start method of GNU Block:
+            - Gets active radio from api
+            - Gets / creates Panadapter
+            - Creates IQ Stream and begins listening
+        """
+
         self.rx_buffer = RingBuffer(4096)  # 4 times the UDP payload size
         print "FlexSource::Starting..."
         self.radio = FlexApi().getRadio()
 
         # TODO: make this a parameter of the source block
-        sample_rate = 192000 # Available in IQStream.cs
+        sample_rate = 192000  # Available in IQStream.cs
 
+        # Do we actually need this segment? I think not since this py file is
+        # just meant to manage one panadapter now
         print "FlexSource::GetOrCreatePanAdapter"
         pans = self.radio.WaitForPanadaptersSync()
         # Destroy all active panadapters
-        """
+        print "Number of active panadapters: {0}".format(len(pans))
         for p in pans:
             p.Close(True)
-        """
 
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
 
@@ -180,26 +182,27 @@ class FlexSource(gr.sync_block):
         print "FlexSource::IQStreamCreated"
         return True
 
-    """
-    Cleans up the Flex resources being used by this block
-    """
     def stop(self):
+        """
+        Cleans up the Flex resources being used by this block
+        """
+
         print("FlexSource::Removing IQ & Pan Adapter")
         # Closes only this instance of pan_adapter
         self.pan_adapter.Close(True)
         self.iq_stream.Close()
         del self.rx_buffer
-        # self.received_queue.join()
         print("FlexSource::Removed IQ & Panadapter, finished Queue")
         return True
 
-    """
-    Since the Flex radio is pushing data to this computer via UDP,
-    we push the data onto a queue and inside the work method (GNU-Radio's api)
-    we pull the appropriate amount of data off of the queue and push it into
-    the output buffer of the gnu block
-    """
     def work(self, input_items, output_items):
+        """
+        Since the Flex radio is pushing data to this computer via UDP,we push
+        the data onto a queue and inside the work method (GNU-Radio's api) we
+        pull the appropriate amount of data off of the queue and push it into
+        the output buffer of the GNU Radio block
+        """
+
         out = output_items[0]
         num_outputs = 0
         try:

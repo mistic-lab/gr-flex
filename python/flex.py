@@ -27,12 +27,12 @@ from Flex.Smoothlake.FlexLib import API
 class FlexApi: 
     radio = None
 
-    def __print_radio_info(self,radio):
+    def __print_radio_info(self, radio):
         print("Radio Discovered")
         print("Model:\t\t\t{0}\r\nIp:\t\t\t{1}\r\nCommand Port (TCP):\t{2}\r\nData Port (UDP):\t{3}".format(radio.Model,radio.IP,radio.CommandPort,API.UDPPort))
         print("Status:\t\t\t{0}".format(radio.Status))
 
-    def __radio_added(self,foundRadio):
+    def __radio_added(self, foundRadio):
         FlexApi.radio = foundRadio
 
     def __initRadio(self):
@@ -58,10 +58,3 @@ class FlexApi:
         if(FlexApi.radio is None):
             self.__initRadio()
         return FlexApi.radio
-
-
-
- 
-
-
-

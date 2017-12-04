@@ -1,5 +1,8 @@
 import clr
 from os import path
+# Import the API
+from Flex.Smoothlake.FlexLib import API
+import System
 
 # Get the current directory
 scriptDir = path.dirname(path.realpath(__file__))
@@ -15,21 +18,22 @@ clr.AddReference("{0}/FlexLib".format(flexLibDir))
 clr.AddReference("{0}/Flex.UiWpfFramework.dll".format(flexLibDir))
 
 # Print the loaded assemblies
-import System
 domain = System.AppDomain.CurrentDomain
 for item in domain.GetAssemblies():
     name = item.GetName()
     print("Loaded Assembly: {0}".format(name))
 
-# Import the API
-from Flex.Smoothlake.FlexLib import API
 
-class FlexApi: 
+class FlexApi:
     radio = None
 
     def __print_radio_info(self, radio):
-        print("Radio Discovered")
-        print("Model:\t\t\t{0}\r\nIp:\t\t\t{1}\r\nCommand Port (TCP):\t{2}\r\nData Port (UDP):\t{3}".format(radio.Model,radio.IP,radio.CommandPort,API.UDPPort))
+        print "Radio Discovered"
+        print("Model:\t\t\t{0}\r\n\
+            Ip:\t\t\t{1}\r\n\
+            Command Port(TCP):\t{2}\r\n\
+            Data Port(UDP):\t{3}".format(
+            radio.Model, radio.IP, radio.CommandPort, API.UDPPort))
         print("Status:\t\t\t{0}".format(radio.Status))
 
     def __radio_added(self, foundRadio):
@@ -46,13 +50,22 @@ class FlexApi:
         # Here we wait until we have a connected radio
         while FlexApi.radio is None:
             pass
-        
+
         # Remove our event handler
         API.RadioAdded -= self.__radio_added
 
         self.__print_radio_info(FlexApi.radio)
         print("Connecting...")
         FlexApi.radio.Connect()
+
+        """
+        print "flex::WaitForPanadaptersSync"
+        pans = FlexApi.radio.WaitForPanadaptersSync()
+        print "Number of active panadapters: {0}".format(len(pans))
+        print "Closing active panadapters"
+        for p in pans:
+            p.Close(True)
+        """
 
     def getRadio(self):
         if(FlexApi.radio is None):

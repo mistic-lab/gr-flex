@@ -165,8 +165,8 @@ class FlexSource(gr.sync_block):
 
         print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, \
             bandwidth:{2} MHz, RX antenna:{3} )".format(
-            dax_ch, self.center_freq, self.bandwidth, self.rx_ant)
-        self.pan_adapter.DAXIQChannel = dax_ch
+            self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant)
+        self.pan_adapter.DAXIQChannel = self.dax_iq_ch
         self.pan_adapter.CenterFreq = self.center_freq
         self.pan_adapter.Bandwidth = self.bandwidth
         self.pan_adapter.RXAnt = self.rx_ant

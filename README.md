@@ -140,6 +140,17 @@ Visit [their site](https://brew.sh/) where there will be up-to-date notes if you
   brew install doxygen
   ```
 
+## Windows
+- [Python](https://www.python.org/download/releases/2.7/) (binary installer)
+  After the install, [add python to your environment variables](https://docs.python.org/2/using/windows.html#excursus-setting-environment-variables).
+- [GNU Radio](http://www.gcndevelopment.com/gnuradio/downloads.htm) (binary installer)
+- [.NET](https://www.microsoft.com/net/download/) (binary installer) I installed the SDK as well as the Framework. I'm pretty sure you could get away with just the Framework.
+- PythonNet
+  ```
+  python -m pip install pythonnet
+  ```
+- [cmake](https://cmake.org/download/) (binary installer) During the install, indicate that cmake should be added to the path.
+
 ### Installing the Block
 
 Once all of the pre-requisites are installed, you can run the build script within the root of the project. A slight tweak needs to be made if GNU Radio was installed using PyBombs. For a non-pybombs install:

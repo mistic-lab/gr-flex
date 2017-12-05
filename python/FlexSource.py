@@ -33,7 +33,8 @@ class FlexSource(gr.sync_block):
     The FlexSource block used for streaming and interacting with IQ Data
     Streams from the Flex Radio.
     """
-    def __init__(self, center_freq=15000000, bandwidth=5000000, rx_ant="ANT1", dax_iq_ch=1):
+    def __init__(self, center_freq=15000000, bandwidth=5000000,
+                 rx_ant="ANT1", dax_iq_ch=1):
         gr.sync_block.__init__(self,
                                name="source",
                                in_sig=None,
@@ -42,13 +43,12 @@ class FlexSource(gr.sync_block):
         self._bandwidth = self.__hz_to_mhz(bandwidth)
         self._rx_ant = rx_ant
         self._dax_iq_ch = dax_iq_ch
-        print "FLEX:SOURCE:INIT"
+        print("FLEX:SOURCE:INIT")
         self.rx_buffer = None
         self.radio = None
         self.iq_stream = None
         self.pan_adapter = None
 
-        # For debugging... Sick comment, Nick.
         self._debug = False
 
     def __hz_to_mhz(self, hz):
@@ -134,9 +134,13 @@ class FlexSource(gr.sync_block):
             print err
 
     def __property_changed(self, sender, args):
+        """
+        Prints out chosen property value with description each time it changes
+        on the side of the panadapter.
+        """
         if args.PropertyName == "Bandwidth":
-            print "{0} Bandwidth Changed".format(
-                self.pan_adapter.Bandwidth)
+            print("{0} Bandwidth Changed".format(
+                self.pan_adapter.Bandwidth))
 
     def start(self):
         """
@@ -145,9 +149,8 @@ class FlexSource(gr.sync_block):
             - Gets / creates Panadapter
             - Creates IQ Stream and begins listening
         """
-
         self.rx_buffer = RingBuffer(4096)  # 4 times the UDP payload size
-        print "FlexSource::Starting..."
+        print("FlexSource::Starting...")
         self.radio = FlexApi().getRadio()
 
         # TODO: make this a parameter of the source block
@@ -155,10 +158,10 @@ class FlexSource(gr.sync_block):
 
         # Do we actually need this segment? I think not since this py file is
         # just meant to manage one panadapter now
-        print "FlexSource::GetOrCreatePanAdapter"
+        print("FlexSource::GetOrCreatePanAdapter")
         pans = self.radio.WaitForPanadaptersSync()
         # Destroy all active panadapters
-        print "Number of active panadapters: {0}".format(len(pans))
+        print("Number of active panadapters: {0}".format(len(pans)))
         for p in pans:
             p.Close(True)
 
@@ -167,26 +170,25 @@ class FlexSource(gr.sync_block):
         if self._debug:
             self.pan_adapter.PropertyChanged += self.__property_changed
 
-        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, \
+        print("FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, \
             bandwidth:{2} MHz, RX antenna:{3} )".format(
-            self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant)
+            self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant))
         self.pan_adapter.DAXIQChannel = self.dax_iq_ch
         self.pan_adapter.CenterFreq = self.center_freq
         self.pan_adapter.Bandwidth = self.bandwidth
         self.pan_adapter.RXAnt = self.rx_ant
 
-        print "FlexSource::CreatingIQStream"
+        print("FlexSource::CreatingIQStream")
         self.iq_stream = self.radio.CreateIQStreamSync(self.dax_iq_ch)
         self.iq_stream.DataReady += self.__iq_data_received
         self.iq_stream.SampleRate = sample_rate
-        print "FlexSource::IQStreamCreated"
+        print("FlexSource::IQStreamCreated")
         return True
 
     def stop(self):
         """
         Cleans up the Flex resources being used by this block
         """
-
         print("FlexSource::Removing IQ & Pan Adapter")
         # Closes only this instance of pan_adapter
         self.pan_adapter.Close(True)
@@ -202,7 +204,6 @@ class FlexSource(gr.sync_block):
         pull the appropriate amount of data off of the queue and push it into
         the output buffer of the GNU Radio block
         """
-
         out = output_items[0]
         num_outputs = 0
         try:

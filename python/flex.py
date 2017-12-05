@@ -28,7 +28,7 @@ class FlexApi:
     radio = None
 
     def __print_radio_info(self, radio):
-        print "Radio Discovered"
+        print("Radio Discovered")
         print("Model:\t\t\t{0}\r\n\
             Ip:\t\t\t{1}\r\n\
             Command Port(TCP):\t{2}\r\n\
@@ -58,14 +58,14 @@ class FlexApi:
         print("Connecting...")
         FlexApi.radio.Connect()
 
-        """
-        print "flex::WaitForPanadaptersSync"
+        print("flex::WaitForPanadaptersSync")
         pans = FlexApi.radio.WaitForPanadaptersSync()
-        print "Number of active panadapters: {0}".format(len(pans))
-        print "Closing active panadapters"
+        print("Closing active panadapters")
+        pan_counter = 0
         for p in pans:
             p.Close(True)
-        """
+            pan_counter += 1
+        print("{0} panadapters were destroyed".format(pan_counter))
 
     def getRadio(self):
         if(FlexApi.radio is None):

@@ -1,8 +1,6 @@
 import clr
 from os import path
-# Import the API
-from Flex.Smoothlake.FlexLib import API
-import System
+
 
 # Get the current directory
 scriptDir = path.dirname(path.realpath(__file__))
@@ -17,11 +15,16 @@ clr.AddReference("{0}/Util".format(flexLibDir))
 clr.AddReference("{0}/FlexLib".format(flexLibDir))
 clr.AddReference("{0}/Flex.UiWpfFramework.dll".format(flexLibDir))
 
+
 # Print the loaded assemblies
+import System
 domain = System.AppDomain.CurrentDomain
 for item in domain.GetAssemblies():
     name = item.GetName()
     print("Loaded Assembly: {0}".format(name))
+
+# Import the API
+from Flex.Smoothlake.FlexLib import API
 
 
 class FlexApi:

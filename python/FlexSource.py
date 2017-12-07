@@ -156,16 +156,6 @@ class FlexSource(gr.sync_block):
         # TODO: make this a parameter of the source block
         sample_rate = 192000  # Available in IQStream.cs
 
-        """
-        # Do we actually need this segment? I think not since this py file is
-        # just meant to manage one panadapter now
-        print("FlexSource::GetOrCreatePanAdapter")
-        pans = self.radio.WaitForPanadaptersSync()
-        # Destroy all active panadapters
-        print("Number of active panadapters: {0}".format(len(pans)))
-        for p in pans:
-            p.Close(True)
-        """
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
 
         if self._debug:

@@ -64,7 +64,9 @@ class FlexApi:
         # Collect active panadapters and destroy them all (even the younglings)
         print("flex::WaitForPanadaptersSync")
         active_pans = FlexApi.radio.WaitForPanadaptersSync()
-        print("Number of active panadapters: {0}".format(len(active_pans)))
+        print("-->Number of active panadapters: {0}\n\
+            -->Panadapter IDs:{1}".format(
+            len(active_pans), active_pans))
         destroyed_pans = 0
         print("Destroying panadapters...")
         for p in active_pans:

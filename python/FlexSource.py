@@ -43,7 +43,7 @@ class FlexSource(gr.sync_block):
         self._bandwidth = self.__hz_to_mhz(bandwidth)
         self._rx_ant = rx_ant
         self._dax_iq_ch = dax_iq_ch
-        print("FLEX:SOURCE:INIT")
+        print("FlexSource:INIT")
         self.rx_buffer = None
         self.radio = None
         self.iq_stream = None
@@ -129,7 +129,7 @@ class FlexSource(gr.sync_block):
             self.rx_buffer.add([float(num) for num in data])
         except RingBuffer.Full:
             # queue is full, drop packets I guess
-            print("FLEX_SOURCE::Buffer Full, Packet Dropped")
+            print("FlexSource::Buffer Full, Packet Dropped")
         except Exception as err:
             print err
 

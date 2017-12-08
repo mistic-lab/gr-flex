@@ -139,7 +139,8 @@ class FlexSource(gr.sync_block):
         on the side of the panadapter.
         """
         if args.PropertyName == "Bandwidth":
-            print("{0} Bandwidth Changed".format(
+            print("FlexSource::PropertyChanged\n\
+            --> Bandwidth changed to: {0}".format(
                 self.pan_adapter.Bandwidth))
 
     def start(self):
@@ -164,7 +165,8 @@ class FlexSource(gr.sync_block):
         if self._debug:
             self.pan_adapter.PropertyChanged += self.__property_changed
 
-        print("FlexSource::Panadapter created (DAX IQ Ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(
+        print("FlexSource::Panadapter created (DAX IQ Ch:{0}, Center\
+         Freq.:{1} MHz, Bandwidth:{2} MHz, RX antenna:{3} )".format(
             self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant))
         self.pan_adapter.DAXIQChannel = self.dax_iq_ch
         self.pan_adapter.CenterFreq = self.center_freq

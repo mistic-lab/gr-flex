@@ -23,7 +23,7 @@ for item in domain.GetAssemblies():
     name = item.GetName()
     print("Loaded Assembly: {0}".format(name))
 
-# Import the API
+# Import the API (has to be after the loaded assemblies are printed)
 from Flex.Smoothlake.FlexLib import API
 
 
@@ -31,25 +31,24 @@ class FlexApi:
     radio = None
 
     def __print_radio_info(self, radio):
-        print("Radio Discovered")
-        print("Model:\t\t\t{0}\r\n\
-            Ip:\t\t\t{1}\r\n\
-            Command Port(TCP):\t{2}\r\n\
-            Data Port(UDP):\t{3}".format(
+        print("flex::Radio Discovered")
+        print("--> Model:\t\t\t{0}\r\n\
+            --> Ip:\t\t\t{1}\r\n\
+            --> Command Port(TCP):\t{2}\r\n\
+            --> Data Port(UDP):\t{3}".format(
             radio.Model, radio.IP, radio.CommandPort, API.UDPPort))
-        print("Status:\t\t\t{0}".format(radio.Status))
+        print("--> Status:\t\t\t{0}".format(radio.Status))
 
     def __radio_added(self, foundRadio):
         FlexApi.radio = foundRadio
 
     def __initRadio(self):
-        print("Initializing FlexLib API...\t")
+        print("flex::Initializing FlexLib API...\t")
         API.RadioAdded += self.__radio_added
         API.ProgramName = "gnuradio"
         API.Init()
-        print("OK")
 
-        print("Discovering Radios...\t\t")
+        print("--> Discovering Radios...\t\t")
         # Here we wait until we have a connected radio
         while FlexApi.radio is None:
             pass
@@ -58,16 +57,16 @@ class FlexApi:
         API.RadioAdded -= self.__radio_added
 
         self.__print_radio_info(FlexApi.radio)
-        print("Connecting...")
+        print("--> Connecting...")
         FlexApi.radio.Connect()
 
         # Collect active panadapters and destroy them all (even the younglings)
         print("flex::WaitForPanadaptersSync")
         existing_pans = FlexApi.radio.WaitForPanadaptersSync()
         if len(existing_pans) == 0:
-            print("No panadapters active.")
+            print("--> No panadapters active.")
         else:
-            print("Destroying panadapters...")
+            print("--> Destroying panadapters...")
             while len(existing_pans) is not 0:
                 for p in existing_pans:
                     p.Close(True)

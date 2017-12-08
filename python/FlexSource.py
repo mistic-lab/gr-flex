@@ -155,13 +155,16 @@ class FlexSource(gr.sync_block):
 
         # TODO: make this a parameter of the source block
         sample_rate = 192000  # Available in IQStream.cs
+        # sample_rate = 96000
+        # sample_rate = 48000
+        # sample_rate = 24000
 
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
 
         if self._debug:
             self.pan_adapter.PropertyChanged += self.__property_changed
 
-        print("FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(
+        print("FlexSource::Panadapter created (DAX IQ Ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(
             self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant))
         self.pan_adapter.DAXIQChannel = self.dax_iq_ch
         self.pan_adapter.CenterFreq = self.center_freq

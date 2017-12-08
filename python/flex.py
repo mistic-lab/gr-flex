@@ -68,11 +68,11 @@ class FlexApi:
             print("There are active panadapters...")
             destroyed_pans = 0
             print("Destroying panadapters...")
-        while len(pan_check) is not 0:
-            for p in pan_check:
-                p.Close(True)
-                destroyed_pans += 1
-            pan_check = FlexApi.radio.WaitForPanadaptersSync()
+            while len(pan_check) is not 0:
+                for p in pan_check:
+                    p.Close(True)
+                    destroyed_pans += 1
+                pan_check = FlexApi.radio.WaitForPanadaptersSync()
         try:
             print("{0} panadapters destroyed".format((destroyed_pans - 1) / 2))
         except NameError:

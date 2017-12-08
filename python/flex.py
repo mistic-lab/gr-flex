@@ -62,21 +62,16 @@ class FlexApi:
         FlexApi.radio.Connect()
 
         # Collect active panadapters and destroy them all (even the younglings)
-        pan_check = FlexApi.radio.WaitForPanadaptersSync()
         print("flex::WaitForPanadaptersSync")
-        if len(pan_check) is not 0:
-            print("There are active panadapters...")
-            destroyed_pans = 0
-            print("Destroying panadapters...")
-            while len(pan_check) is not 0:
-                for p in pan_check:
-                    p.Close(True)
-                    destroyed_pans += 1
-                pan_check = FlexApi.radio.WaitForPanadaptersSync()
-        try:
-            print("{0} panadapters destroyed".format((destroyed_pans - 1) / 2))
-        except NameError:
+        existing_pans = FlexApi.radio.WaitForPanadaptersSync()
+        if len(existing_pans) == 0:
             print("No panadapters active.")
+        else:
+            print("Destroying panadapters...")
+            while len(existing_pans) is not 0:
+                for p in existing_pans:
+                    p.Close(True)
+                existing_pans = FlexApi.radio.WaitForPanadaptersSync()
 
     def getRadio(self):
         if(FlexApi.radio is None):

@@ -161,8 +161,7 @@ class FlexSource(gr.sync_block):
         if self._debug:
             self.pan_adapter.PropertyChanged += self.__property_changed
 
-        print("FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, \
-            bandwidth:{2} MHz, RX antenna:{3} )".format(
+        print("FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, bandwidth:{2} MHz, RX antenna:{3} )".format(
             self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant))
         self.pan_adapter.DAXIQChannel = self.dax_iq_ch
         self.pan_adapter.CenterFreq = self.center_freq

@@ -33,7 +33,8 @@ class FlexSource(gr.sync_block):
     The FlexSource block used for streaming and interacting with IQ Data
     Streams from the Flex Radio.
     """
-    def __init__(self, center_freq=15000000, bandwidth=5000000, rx_ant="ANT1", dax_iq_ch=1):
+    def __init__(self, center_freq=15000000, bandwidth=5000000,
+                 rx_ant="ANT1", dax_iq_ch=1):
         gr.sync_block.__init__(self,
                                name="source",
                                in_sig=None,
@@ -42,13 +43,12 @@ class FlexSource(gr.sync_block):
         self._bandwidth = self.__hz_to_mhz(bandwidth)
         self._rx_ant = rx_ant
         self._dax_iq_ch = dax_iq_ch
-        print "FLEX:SOURCE:INIT"
+        print("FlexSource:INIT")
         self.rx_buffer = None
         self.radio = None
         self.iq_stream = None
         self.pan_adapter = None
 
-        # For debugging... Sick comment, Nick.
         self._debug = False
 
     def __hz_to_mhz(self, hz):
@@ -129,75 +129,76 @@ class FlexSource(gr.sync_block):
             self.rx_buffer.add([float(num) for num in data])
         except RingBuffer.Full:
             # queue is full, drop packets I guess
-            print("FLEX_SOURCE::Buffer Full, Packet Dropped")
+            print("FlexSource::Buffer Full, Packet Dropped")
         except Exception as err:
             print err
 
     def __property_changed(self, sender, args):
+        """
+        Prints out chosen property value with description each time it changes
+        on the side of the panadapter.
+        """
         if args.PropertyName == "Bandwidth":
-            print "{0} Bandwidth Changed".format(
-                self.pan_adapter.Bandwidth)
+            print("FlexSource::PropertyChanged\n\
+            --> Bandwidth changed to: {0}".format(
+                self.pan_adapter.Bandwidth))
 
-    """
-    Start method of GNU Block:
-        - Gets active radio from api
-        - Gets / creates Panadapter
-        - Creates IQ Stream and begins listening
-    """
     def start(self):
+        """
+        Start method of GNU Block:
+            - Gets active radio from api
+            - Gets / creates Panadapter
+            - Creates IQ Stream and begins listening
+        """
         self.rx_buffer = RingBuffer(4096)  # 4 times the UDP payload size
-        print "FlexSource::Starting..."
+        print("FlexSource::Starting...")
         self.radio = FlexApi().getRadio()
 
         # TODO: make this a parameter of the source block
-        sample_rate = 192000 # Available in IQStream.cs
+        sample_rate = 192000  # Available in IQStream.cs
+        # sample_rate = 96000
+        # sample_rate = 48000
+        # sample_rate = 24000
 
-        print "FlexSource::GetOrCreatePanAdapter"
-        pans = self.radio.WaitForPanadaptersSync()
-        # Close any panAdapters currently setup
-        # TODO: Probably not necessary to clean them all up as it will destroy other client's panadapters
-        for p in pans:
-            p.Close(True)
         self.pan_adapter = self.radio.GetOrCreatePanadapterSync(0, 0)
 
         if self._debug:
             self.pan_adapter.PropertyChanged += self.__property_changed
 
-        print "FlexSource::Panadapter created (ch:{0}, center freq:{1} MHz, \
-            bandwidth:{2} MHz, RX antenna:{3} )".format(
-            self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant)
+        print("FlexSource::Panadapter created (DAX IQ Ch:{0}, Center\
+         Freq.:{1} MHz, Bandwidth:{2} MHz, RX antenna:{3} )".format(
+            self.dax_iq_ch, self.center_freq, self.bandwidth, self.rx_ant))
         self.pan_adapter.DAXIQChannel = self.dax_iq_ch
         self.pan_adapter.CenterFreq = self.center_freq
         self.pan_adapter.Bandwidth = self.bandwidth
         self.pan_adapter.RXAnt = self.rx_ant
 
-        print "FlexSource::CreatingIQStream"
+        print("FlexSource::CreatingIQStream")
         self.iq_stream = self.radio.CreateIQStreamSync(self.dax_iq_ch)
         self.iq_stream.DataReady += self.__iq_data_received
         self.iq_stream.SampleRate = sample_rate
-        print "FlexSource::IQStreamCreated"
+        print("FlexSource::IQStreamCreated")
         return True
 
-    """
-    Cleans up the Flex resources being used by this block
-    """
     def stop(self):
+        """
+        Cleans up the Flex resources being used by this block
+        """
         print("FlexSource::Removing IQ & Pan Adapter")
-        self.iq_stream.DataReady -= self.__iq_data_received
+        # Closes only this instance of pan_adapter
         self.pan_adapter.Close(True)
         self.iq_stream.Close()
         del self.rx_buffer
-        # self.received_queue.join()
         print("FlexSource::Removed IQ & Panadapter, finished Queue")
         return True
 
-    """
-    Since the Flex radio is pushing data to this computer via UDP,
-    we push the data onto a queue and inside the work method (GNU-Radio's api)
-    we pull the appropriate amount of data off of the queue and push it into
-    the output buffer of the gnu block
-    """
     def work(self, input_items, output_items):
+        """
+        Since the Flex radio is pushing data to this computer via UDP,we push
+        the data onto a queue and inside the work method (GNU-Radio's api) we
+        pull the appropriate amount of data off of the queue and push it into
+        the output buffer of the GNU Radio block
+        """
         out = output_items[0]
         num_outputs = 0
         try:

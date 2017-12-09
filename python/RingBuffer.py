@@ -4,6 +4,7 @@ A 1D ring buffer using numpy arrays
 from threading import RLock
 import numpy as np
 
+
 class RingBuffer(object):
     """
     A 1D ring buffer using numpy arrays
@@ -11,13 +12,15 @@ class RingBuffer(object):
 
     class Empty(Exception):
         """
-        The RingBuffer.Empty Exception thrown when a read is issued on an empty buffer
+        The RingBuffer.Empty Exception thrown when a read is issued on an empty
+        buffer
         """
         pass
 
     class Full(Exception):
         """
-        The RingBuffer.Full Exception thrown when a write is issued on a full buffer
+        The RingBuffer.Full Exception thrown when a write is issued on a full
+        buffer
         """
         pass
 
@@ -30,7 +33,7 @@ class RingBuffer(object):
 
     @property
     def size_total(self):
-        """ Gets the size of the entire buffer"""
+        """ Gets the size of the entire buffer """
         return self.data.size
 
     @property
@@ -52,7 +55,7 @@ class RingBuffer(object):
             return self.__size_used == 0
 
     def add(self, items):
-        """adds data items to ring buffer"""
+        """ Adds data items to ring buffer"""
         items_size = 0
         if isinstance(items, list):
             items_size = len(items)
@@ -69,7 +72,7 @@ class RingBuffer(object):
             self.__size_used += items_size
 
     def get(self, number):
-        """Returns the first-in-first-out data in the ring buffer"""
+        """ Returns the first-in-first-out data in the ring buffer """
         with self.__lock:
             if self.is_empty:
                 raise RingBuffer.Empty

@@ -23,7 +23,7 @@ for item in domain.GetAssemblies():
     name = item.GetName()
     print("Loaded Assembly: {0}".format(name))
 
-# Import the API (has to be after the loaded assemblies are printed)
+# Import the API (has to be after clr.AddReference calls)
 from Flex.Smoothlake.FlexLib import API
 
 

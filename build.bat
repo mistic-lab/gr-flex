@@ -22,6 +22,7 @@ if not exist %BUILDDIR%  mkdir %BUILDDIR%
 
 cd %BUILDDIR%
 
-cmake ../
+cmake ..
+:: Do we need to install make for windows?
 make
 sudo make install
